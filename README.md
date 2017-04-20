@@ -1,6 +1,6 @@
 # Bovespa Stock Ratings
 Uma plataforma para analisar dados fundamentalistas das ações da BOVESPA utilizando um crawler em python e um database em firebase.
-Acesso: https://daniloaleixo.github.io/bovespaStockRatings/
+Acesso: https://daniloaleixo.github.io/bovespaStockRatings/index.html
 
 
 ## Análise 
