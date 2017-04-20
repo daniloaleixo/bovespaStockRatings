@@ -100,7 +100,7 @@ def get_data(*args, **kwargs):
 
 
     return lista
-    # return []
+
     
 if __name__ == '__main__':
     from waitingbar import WaitingBar
@@ -117,15 +117,18 @@ if __name__ == '__main__':
     #Transform em uma lista, agora preciso passar para formato JSON
     array_format = list(lista.items())
 
+    # print(array_format, len(array_format))
+
     # Adiciona a data que esta pegando a info
     json_format = {
       "date": time.strftime("%c")
     }
 
-    for i in range(0, len(array_format)): 
-      json_format[str(i)] = {
-        str(array_format[i][0]):array_format[0][1]
-      }
+    for i in range(0, len(array_format)):
+        json_format[str(array_format[i][0])] = array_format[i][1]
+
+    # print (json_format)
+
 
     # json_format = {
     #     "0": {
@@ -180,14 +183,14 @@ if __name__ == '__main__':
     # beautify JSON
     new_json = json.dumps(json_format, sort_keys=True, indent=4, separators=(',', ': '))
 
-    # transform back again in dict
+    # # transform back again in dict
     new_json = ast.literal_eval(new_json)
 
     # print (new_json)
 
-    # Calculate the score of the stock
+    # # # Calculate the score of the stock
     for key in new_json.keys():
-        # print (new_json[key])
+        print (new_json[key])
         if key != 'date':
             for stock in new_json[key]:
                 nota = 0
@@ -210,12 +213,12 @@ if __name__ == '__main__':
                 new_json[key][stock]["nota"] = float(nota) / 8.0
 
 
-    # beautify JSON
+    # # # beautify JSON
     output_json = json.dumps(new_json, sort_keys=True, indent=4, separators=(',', ': '))
 
     # print (output_json)
 
-    # Write in the file
+    # # # Write in the file
     file_output.write(output_json)
     file_output.close()
 
