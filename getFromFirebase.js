@@ -36,66 +36,60 @@ var hideLoading = function(){
 }
 
 var buildTable = function(data){
+
+	// Put the objects in an array
+	arrayObjects = []
+	Object.keys(data).forEach(function(key){
+		arrayObjects.push(data[key])
+	})
+
+
 	// Sort elements by score
-	[].slice.call(data).sort(function(a, b){
-		var nota1 = 0;
-		var nota2 = 0;
+	arrayObjects.sort(function(a, b){
+		var nota1 = 0, nota2 = 0;
 		Object.keys(a).forEach(function(key){
-			nota1 = a[key]["nota"];
+			nota1 = a[key]["nota"]
 		})
 		Object.keys(b).forEach(function(key){
-			nota2 = b[key]["nota"];
+			nota2 = b[key]["nota"]
 		})
 		return nota2 - nota1;
 	})
+	console.log(arrayObjects[arrayObjects.length - 1])
 
 	var txt = "";
-	Object.keys(data).forEach(function(key){
-		if(parseInt(key) < 1000){
-			Object.keys(data[key]).forEach(function(stock){
-				// var stockInfo = {
-				// 	stockName: stock,
-				// 	nota: data[key][stock]["nota"],
-				// 	cotacao: data[key][stock]["cotacao"],
-				// 	patLiq: data[key][stock]["Pat.Liq"],
-				// 	LiqCorr: data[key][stock]["Liq.Corr."],
-				// 	ROE: data[key][stock]["ROE"],
-				// 	DivPat: data[key][stock]["Div.Brut/Pat."],
-				// 	Cresc5: data[key][stock]["Cresc.5a"],
-				// 	PVP: data[key][stock]["P/VP"],
-				// 	PL: data[key][stock]["P/L"],
-				// 	Div: data[key][stock]["DY"]
-				// }
-				// console.log(stockInfo);
+	for(var i = 0; i < arrayObjects.length; i++) {
+		if(typeof(arrayObjects[i]) == "object"){
 
+			Object.keys(arrayObjects[i]).forEach(function(stock){
 				var stockLine = "<tr>" + 
 								"<td class='stock'>" + stock + "</td>" + 
-				            	"<td>" + data[key][stock]["nota"] + "</td>" +
-				            	"<td>" + data[key][stock]["cotacao"] + "</td>" +
-				            	"<td>" + data[key][stock]["Pat.Liq"] + "</td>" +
-				            	"<td>" + data[key][stock]["Liq.Corr."] + "</td>" +
-				            	"<td>" + data[key][stock]["ROE"] + "</td>" +
-				            	"<td>" + data[key][stock]["Div.Brut/Pat."] + "</td>" +
-				            	"<td>" + data[key][stock]["Cresc.5a"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/VP"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/L"] + "</td>" +
-				            	"<td>" + data[key][stock]["DY"] + "</td>" +
-				            	"<td>" + data[key][stock]["PSR"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/Ativo"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/Cap.Giro"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/EBIT"] + "</td>" +
-				            	"<td>" + data[key][stock]["P/Ativ.Circ.Liq."] + "</td>" +
-				            	"<td>" + data[key][stock]["EV/EBIT"] + "</td>" +
-				            	"<td>" + data[key][stock]["EBITDA"] + "</td>" +
-				            	"<td>" + data[key][stock]["Mrg.Liq."] + "</td>" +
-				            	"<td>" + data[key][stock]["ROIC"] + "</td>" +
-				            	"<td>" + data[key][stock]["Liq.2m."] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["nota"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["cotacao"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Pat.Liq"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Liq.Corr."] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["ROE"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Div.Brut/Pat."] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Cresc.5a"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/VP"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/L"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["DY"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["PSR"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/Ativo"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/Cap.Giro"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/EBIT"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["P/Ativ.Circ.Liq."] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["EV/EBIT"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["EBITDA"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Mrg.Liq."] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["ROIC"] + "</td>" +
+				            	"<td>" + arrayObjects[i][stock]["Liq.2m."] + "</td>" +
 				        		"</tr>";
 
-				txt += stockLine;
-			});
+								txt += stockLine;
+			})
 		}
-	})
+	}
 	
 	$("#resultado").append(txt)
 
