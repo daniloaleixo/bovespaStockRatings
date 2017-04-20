@@ -62,7 +62,13 @@ var buildTable = function(data){
 		if(typeof(arrayObjects[i]) == "object"){
 
 			Object.keys(arrayObjects[i]).forEach(function(stock){
-				var stockLine = "<tr>" + 
+
+				var greenLine = " class='green-line'";
+				// If we see a stock with score below 7.5 we turnoff green
+				if(parseFloat(arrayObjects[i][stock]["nota"]) < 7.5)
+					greenLine = '';
+
+				var stockLine = "<tr" + greenLine + ">" + 
 								"<td class='stock'>" + stock + "</td>" + 
 				            	"<td>" + arrayObjects[i][stock]["nota"] + "</td>" +
 				            	"<td>" + arrayObjects[i][stock]["cotacao"] + "</td>" +
