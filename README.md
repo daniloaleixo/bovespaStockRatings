@@ -28,3 +28,4 @@ líquidos.
 * Teste alternativo: Graham multiplicava o P/L pelo preço sobre o valor de mercado e
 verifica se o resultado está abaixo de 22.5
   * Ainda não implementei
+
