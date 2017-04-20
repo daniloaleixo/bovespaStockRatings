@@ -29,3 +29,8 @@ líquidos.
 verifica se o resultado está abaixo de 22.5
   * Ainda não implementei
 
+
+
+## Créditos
+
+O projeto foi inicialmente uma contribuição para o repositório https://github.com/phoemur/fundamentus
