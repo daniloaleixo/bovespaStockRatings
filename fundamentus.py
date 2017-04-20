@@ -71,28 +71,36 @@ def get_data(*args, **kwargs):
     page = fragment_fromstring(reg)
     lista = OrderedDict()
 
-    for rows in page.xpath('tbody')[0].findall("tr"):
-        lista.update({rows.getchildren()[0][0].getchildren()[0].text: {'cotacao': rows.getchildren()[1].text,
-                                                                       'P/L': rows.getchildren()[2].text,
-                                                                       'P/VP': rows.getchildren()[3].text,
-                                                                       'PSR': rows.getchildren()[4].text,
-                                                                       'DY': rows.getchildren()[5].text,
-                                                                       'P/Ativo': rows.getchildren()[6].text,
-                                                                       'P/Cap.Giro': rows.getchildren()[7].text,
-                                                                       'P/EBIT': rows.getchildren()[8].text,
-                                                                       'P/Ativ.Circ.Liq.': rows.getchildren()[9].text,
-                                                                       'EV/EBIT': rows.getchildren()[10].text,
-                                                                       'EBITDA': rows.getchildren()[11].text,
-                                                                       'Mrg.Liq.': rows.getchildren()[12].text,
-                                                                       'Liq.Corr.': rows.getchildren()[13].text,
-                                                                       'ROIC': rows.getchildren()[14].text,
-                                                                       'ROE': rows.getchildren()[15].text,
-                                                                       'Liq.2m.': rows.getchildren()[16].text,
-                                                                       'Pat.Liq': rows.getchildren()[17].text,
-                                                                       'Div.Brut/Pat.': rows.getchildren()[18].text,
-                                                                       'Cresc.5a': rows.getchildren()[19].text}})
-    
+    stocks = page.xpath('tbody')[0].findall("tr")
+
+    for i in range(0, len(stocks)):
+        lista[i] = {
+            stocks[i].getchildren()[0][0].getchildren()[0].text: {
+                'cotacao': stocks[i].getchildren()[1].text,
+               'P/L': stocks[i].getchildren()[2].text,
+               'P/VP': stocks[i].getchildren()[3].text,
+               'PSR': stocks[i].getchildren()[4].text,
+               'DY': stocks[i].getchildren()[5].text,
+               'P/Ativo': stocks[i].getchildren()[6].text,
+               'P/Cap.Giro': stocks[i].getchildren()[7].text,
+               'P/EBIT': stocks[i].getchildren()[8].text,
+               'P/Ativ.Circ.Liq.': stocks[i].getchildren()[9].text,
+               'EV/EBIT': stocks[i].getchildren()[10].text,
+               'EBITDA': stocks[i].getchildren()[11].text,
+               'Mrg.Liq.': stocks[i].getchildren()[12].text,
+               'Liq.Corr.': stocks[i].getchildren()[13].text,
+               'ROIC': stocks[i].getchildren()[14].text,
+               'ROE': stocks[i].getchildren()[15].text,
+               'Liq.2m.': stocks[i].getchildren()[16].text,
+               'Pat.Liq': stocks[i].getchildren()[17].text,
+               'Div.Brut/Pat.': stocks[i].getchildren()[18].text,
+               'Cresc.5a': stocks[i].getchildren()[19].text
+               }
+            }
+
+
     return lista
+    # return []
     
 if __name__ == '__main__':
     from waitingbar import WaitingBar
