@@ -7,7 +7,7 @@ Acesso: https://daniloaleixo.github.io/bovespaStockRatings/index.html
 Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [Investidor Inteligente](https://en.wikipedia.org/wiki/The_Intelligent_Investor) do Benjamin Graham: 
 
 * Tamanho Adequado 
-  * Patrimônio Líquido menor que R$2bi
+  * Patrimônio Líquido maior que R$2bi
 * Posição Financeira Forte
   * Liquidez Corrente maior que 1,5
   * Dívida Bruta / Patrimônio Líquido
