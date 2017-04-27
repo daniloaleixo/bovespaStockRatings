@@ -10,7 +10,7 @@ Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [In
   * Patrimônio Líquido maior que R$2bi
 * Posição Financeira Forte
   * Liquidez Corrente maior que 1,5
-  * Dívida Bruta / Patrimônio Líquido
+  * Dívida Bruta / Patrimônio Líquido < 50%
 * Histórico de Dividendos contínuos por, pelo menos, os últimos 20 anos.
   * Ainda não consegui pegar essa informação, estou colocando só o último DY
 * Estabilidade nos Ganhos, Nenhum prejuízo nos últimos 10 anos.
@@ -27,7 +27,7 @@ líquidos.
   * P/L < 15
 * Teste alternativo: Graham multiplicava o P/L pelo preço sobre o valor de mercado e
 verifica se o resultado está abaixo de 22.5
-  * Ainda não implementei
+  * P/L x P/VPA < 22.5
 
 
 

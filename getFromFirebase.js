@@ -135,8 +135,10 @@ var calculateScores = function(stockArray){
 				var dy = parseFloat(stockArray[i][stock]["DY"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
 				if( dy > 2.5) 
 				    nota = nota + 1
+				if(pl * pvp < 22.5)
+					nota = nota + 1;
 
-				stockArray[i][stock]["nota"] = parseFloat(nota) / 8.0 * 10.0;
+				stockArray[i][stock]["nota"] = (parseFloat(nota) / 9.0 * 10.0).toFixed(2);
 
 				// console.log([stock, stockArray[i][stock]["nota"], patrLiq, liqCorr, roe, divPat, cresc, pvp, pl, dy])
 
