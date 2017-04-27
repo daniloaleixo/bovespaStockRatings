@@ -38,10 +38,12 @@ var hideLoading = function(){
 var buildTable = function(data){
 
 	// Put the objects in an array
-	arrayObjects = []
+	arrayObjects = [];
 	Object.keys(data).forEach(function(key){
 		arrayObjects.push(data[key])
-	})
+	});
+
+	arrayObjects = calculateScores(arrayObjects);
 
 
 	// Sort elements by score
@@ -55,7 +57,6 @@ var buildTable = function(data){
 		})
 		return nota2 - nota1;
 	})
-	console.log(arrayObjects[arrayObjects.length - 1])
 
 	var txt = "";
 	for(var i = 0; i < arrayObjects.length; i++) {
@@ -102,4 +103,46 @@ var buildTable = function(data){
 
 
 
+}
+
+var calculateScores = function(stockArray){
+	for(var i = 0; i < stockArray.length; i++) {
+		if(typeof(stockArray[i]) == "object"){
+			Object.keys(stockArray[i]).forEach(function(stock){
+				var nota = 0.0;
+
+				var patrLiq = parseFloat(stockArray[i][stock]["Pat.Liq"].replace(/\./g, '').replace(/\,/g, '.'));
+				if( patrLiq > 200000000)
+				    nota = nota + 1
+				var liqCorr = parseFloat(stockArray[i][stock]["Liq.Corr."].replace(/\./g, '').replace(/,/g, '.'));
+				if( liqCorr > 1.)
+				    nota = nota + 1
+				var roe = parseFloat(stockArray[i][stock]["ROE"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( roe > 20) 
+				    nota = nota + 1
+				var divPat = parseFloat(stockArray[i][stock]["Div.Brut/Pat."].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( divPat < 0.5 && divPat > 0) 
+				    nota = nota + 1
+				var cresc = parseFloat(stockArray[i][stock]["Cresc.5a"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( cresc > 5) 
+				    nota = nota + 1
+				var pvp = parseFloat(stockArray[i][stock]["P/VP"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( pvp < 2 && pvp > 0) 
+				    nota = nota + 1
+				var pl = parseFloat(stockArray[i][stock]["P/L"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( pl < 15 && pl > 0) 
+				    nota = nota + 1
+				var dy = parseFloat(stockArray[i][stock]["DY"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
+				if( dy > 2.5) 
+				    nota = nota + 1
+
+				stockArray[i][stock]["nota"] = parseFloat(nota) / 8.0 * 10.0;
+
+				// console.log([stock, stockArray[i][stock]["nota"], patrLiq, liqCorr, roe, divPat, cresc, pvp, pl, dy])
+
+			});
+		}
+	}
+
+	return stockArray;
 }

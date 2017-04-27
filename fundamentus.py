@@ -191,36 +191,36 @@ if __name__ == '__main__':
     # print (new_json)
 
     # # # Calculate the score of the stock
-    for key in new_json.keys():
-        # print (new_json[key])
-        if key != 'date':
-            for stock in new_json[key]:
-                nota = 0
-                patrLiq = float(new_json[key][stock]["Pat.Liq"].replace('.', '').replace(',', '.'))
-                if patrLiq > 2000000000:
-                    nota = nota + 1
-                liqCorr = float(new_json[key][stock]["Liq.Corr."].replace('.', '').replace(',', '.'))
-                if liqCorr > 1.5:
-                    nota = nota + 1
-                roe = float(new_json[key][stock]["ROE"].replace('.', '').replace(',', '.').replace('%', ''))
-                if roe > 20: 
-                    nota = nota + 1
-                divPat = float(new_json[key][stock]["Div.Brut/Pat."].replace('.', '').replace(',', '.').replace('%', ''))
-                if divPat < 0.5 and divPat > 0: 
-                    nota = nota + 1
-                cresc = float(new_json[key][stock]["Cresc.5a"].replace('.', '').replace(',', '.').replace('%', ''))
-                if cresc > 5: 
-                    nota = nota + 1
-                pvp = float(new_json[key][stock]["P/VP"].replace('.', '').replace(',', '.').replace('%', ''))
-                if pvp < 2 and pvp > 0: 
-                    nota = nota + 1
-                pl = float(new_json[key][stock]["P/L"].replace('.', '').replace(',', '.').replace('%', ''))
-                if pl < 15 and pl > 0: 
-                    nota = nota + 1
-                dy = float(new_json[key][stock]["DY"].replace('.', '').replace(',', '.').replace('%', ''))
-                if dy > 2.5: 
-                    nota = nota + 1
-                new_json[key][stock]["nota"] = float(nota) / 8.0 * 10.0
+    # for key in new_json.keys():
+    #     # print (new_json[key])
+    #     if key != 'date':
+    #         for stock in new_json[key]:
+    #             nota = 0
+    #             patrLiq = float(new_json[key][stock]["Pat.Liq"].replace('.', '').replace(',', '.'))
+    #             if patrLiq > 2000000000:
+    #                 nota = nota + 1
+    #             liqCorr = float(new_json[key][stock]["Liq.Corr."].replace('.', '').replace(',', '.'))
+    #             if liqCorr > 1.5:
+    #                 nota = nota + 1
+    #             roe = float(new_json[key][stock]["ROE"].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if roe > 20: 
+    #                 nota = nota + 1
+    #             divPat = float(new_json[key][stock]["Div.Brut/Pat."].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if divPat < 0.5 and divPat > 0: 
+    #                 nota = nota + 1
+    #             cresc = float(new_json[key][stock]["Cresc.5a"].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if cresc > 5: 
+    #                 nota = nota + 1
+    #             pvp = float(new_json[key][stock]["P/VP"].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if pvp < 2 and pvp > 0: 
+    #                 nota = nota + 1
+    #             pl = float(new_json[key][stock]["P/L"].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if pl < 15 and pl > 0: 
+    #                 nota = nota + 1
+    #             dy = float(new_json[key][stock]["DY"].replace('.', '').replace(',', '.').replace('%', ''))
+    #             if dy > 2.5: 
+    #                 nota = nota + 1
+    #             new_json[key][stock]["nota"] = float(nota) / 8.0 * 10.0
 
 
                 # print (stock, '>>>>>>>>>>>>>>>>>>>>>>>.',patrLiq,liqCorr,roe,divPat,cresc,pvp,pl,dy, nota)
