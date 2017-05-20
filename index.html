@@ -71,12 +71,25 @@
 
 
 
-				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				<button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				  <i class="glyphicon glyphicon-menu-down"> </i> 
 				  Modificar regras para calcular nota
 				</button>
 				<div class="collapse" id="collapseExample">
 				  <div class="well">
-				    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+				    <div class="list-group">
+				    	<div class="list-group-item">
+					      <h4>Tamanho Adequado</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="patrLiqCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">$</span>
+					        <input id="patrLiqInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					      </div>
+					    </div>
+				    </div>
+				    <button id="saveRules" class="btn saveRules">Salvar</button>
 				  </div>
 				</div>
 

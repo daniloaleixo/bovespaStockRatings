@@ -1,23 +1,27 @@
-console.log('bla')
+
 
 var database = firebase.database();
 var arrayStocksHistory = [];
 var resultadoClone = $("#resultado").clone();
 
 var comparadores = {
-	patrLiq: 2,
-	liqCorr: 1.0,
-	roe: 2,
-	divPat: 0.5,
-	cresc: 5,
-	pvp: 2,
-	pl: 15,
-	dy: 2.5,
-	plxpvp: 22.5
+	patrLiq: { value: 2, checked: 1 },
+	liqCorr: { value: 1.0, checked: 1 },
+	roe: { value: 2, checked: 1 },
+	divPat: { value: 0.5, checked: 1 },
+	cresc: { value: 5, checked: 1 },
+	pvp: { value: 2, checked: 1 },
+	pl: { value: 15, checked: 1 },
+	dy: { value: 2.5, checked: 1 },
+	plxpvp: { value: 22.5, checked: 1 },
 }
 
+initInputs();
 
 
+// *******************************
+// 			Logic functions
+// *******************************
 database.ref().child('stocks').once('value').then(function(snapshot){
 	// console.log(snapshot.val())
 
@@ -44,10 +48,6 @@ database.ref().child('stocks').once('value').then(function(snapshot){
 })
 
 
-var hideLoading = function(){
-	$('#loading-whell').addClass("hidden");
-	$('#info').removeClass("hidden");
-}
 
 var buildTable = function(data){
 
@@ -116,39 +116,45 @@ var buildTable = function(data){
 }
 
 var calculateScores = function(stockArray){
+	let dividePor = 0;
+	Object.keys(comparadores).forEach(function(elem){
+		if(comparadores[elem].checked) dividePor += 1;
+	})
+	console.log('dividePor', dividePor);
+
 	for(var i = 0; i < stockArray.length; i++) {
 		if(typeof(stockArray[i]) == "object"){
 			Object.keys(stockArray[i]).forEach(function(stock){
 				var nota = 0.0;
 
 				var patrLiq = parseFloat(stockArray[i][stock]["Pat.Liq"].replace(/\./g, '').replace(/\,/g, '.'));
-				if( patrLiq > comparadores.patrLiq)
+				if(comparadores.patrLiq.checked &&  patrLiq > comparadores.patrLiq.value)
 				    nota = nota + 1
 				var liqCorr = parseFloat(stockArray[i][stock]["Liq.Corr."].replace(/\./g, '').replace(/,/g, '.'));
-				if( liqCorr > comparadores.liqCorr)
+				if(comparadores.liqCorr.checked &&  liqCorr > comparadores.liqCorr.value)
 				    nota = nota + 1
 				var roe = parseFloat(stockArray[i][stock]["ROE"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( roe > comparadores.roe) 
+				if(comparadores.roe.checked &&  roe > comparadores.roe.value) 
 				    nota = nota + 1
 				var divPat = parseFloat(stockArray[i][stock]["Div.Brut/Pat."].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( divPat < comparadores.divPat && divPat > 0) 
+				if(comparadores.divPat.checked &&  divPat < comparadores.divPat.value && divPat > 0) 
 				    nota = nota + 1
 				var cresc = parseFloat(stockArray[i][stock]["Cresc.5a"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( cresc > comparadores.cresc) 
+				if(comparadores.cresc.checked &&  cresc > comparadores.cresc.value) 
 				    nota = nota + 1
 				var pvp = parseFloat(stockArray[i][stock]["P/VP"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( pvp < comparadores.pvp && pvp > 0) 
+				if(comparadores.pvp.checked &&  pvp < comparadores.pvp.value && pvp > 0) 
 				    nota = nota + 1
 				var pl = parseFloat(stockArray[i][stock]["P/L"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( pl < comparadores.pl && pl > 0) 
+				if(comparadores.pl.checked &&  pl < comparadores.pl.value && pl > 0) 
 				    nota = nota + 1
 				var dy = parseFloat(stockArray[i][stock]["DY"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( dy > comparadores.dy) 
+				if(comparadores.dy.checked &&  dy > comparadores.dy.value) 
 				    nota = nota + 1
-				if(pl * pvp < comparadores.plxpvp)
+				if(comparadores.plxpvp.checked &&  pl * pvp < comparadores.plxpvp.value)
 					nota = nota + 1;
 
-				stockArray[i][stock]["nota"] = (parseFloat(nota) / 9.0 * 10.0).toFixed(2);
+				stockArray[i][stock]["nota"] = (parseFloat(nota) / dividePor * 10.0).toFixed(2);
 
 				// console.log([stock, stockArray[i][stock]["nota"], patrLiq, liqCorr, roe, divPat, cresc, pvp, pl, dy])
 
@@ -161,7 +167,27 @@ var calculateScores = function(stockArray){
 
 
 
-// Empty table
+// Clears the table
 var resetTable = function() {
 	$("#resultado").replaceWith(resultadoClone.clone());
 }
+
+
+// *******************************
+// 			View state functions
+// *******************************
+var hideLoading = function(){
+	$('#loading-whell').addClass("hidden");
+	$('#info').removeClass("hidden");
+}
+
+
+function initInputs(){
+	console.log("chamei")
+}
+
+// Save rules
+$(document).on('click', '#saveRules', function(){
+	// Get if checkbox is checked
+	console.log($('#patrLiqCheckbox:checked').length)
+})
