@@ -22,7 +22,7 @@ um terço.
   * ROE > 20%
 * Preço sobre Valor de Mercado: O preço da ação inferior a 1,5 x o valor dos ativos
 líquidos.
-  * P/VPA < 2
+  * P/VPA < 1.5
 * P/L Moderado: O preço da ação inferior a 15x o lucro dos últimos 3 anos
   * P/L < 15
 * Teste alternativo: Graham multiplicava o P/L pelo preço sobre o valor de mercado e
