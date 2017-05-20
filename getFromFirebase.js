@@ -2,7 +2,8 @@
 
 var database = firebase.database();
 var arrayStocksHistory = [];
-var resultadoClone = $("#resultado").clone();
+
+var resultadoClone;
 
 var comparadores = {
 	patrLiq: { value: 2000000000, checked: 1 },
@@ -50,6 +51,7 @@ database.ref().child('stocks').once('value').then(function(snapshot){
 
 
 var buildTable = function(data){
+	// console.log('vamos montar a tabela', data);
 
 	// Put the objects in an array
 	arrayObjects = [];
@@ -71,7 +73,6 @@ var buildTable = function(data){
 		})
 		return nota2 - nota1;
 	})
-
 	var txt = "";
 	for(var i = 0; i < arrayObjects.length; i++) {
 		if(typeof(arrayObjects[i]) == "object"){
@@ -111,11 +112,15 @@ var buildTable = function(data){
 			})
 		}
 	}
-	
-	$("#resultado").append(txt);
+	$(function(){
+		$(".table-body").append(txt);
+		console.log('estou aqui');
+		// $("#resultado").append('dsajdhayasyusadd');
+	})
 }
 
 var calculateScores = function(stockArray){
+	console.log('calculando socres');
 	let dividePor = 0;
 	Object.keys(comparadores).forEach(function(elem){
 		if(comparadores[elem].checked) dividePor += 1;
@@ -128,30 +133,30 @@ var calculateScores = function(stockArray){
 				var nota = 0.0;
 
 				var patrLiq = parseFloat(stockArray[i][stock]["Pat.Liq"].replace(/\./g, '').replace(/\,/g, '.'));
-				if(comparadores.patrLiq.checked &&  patrLiq > comparadores.patrLiq.value)
+				if(comparadores.patrLiq.checked &&  patrLiq > parseFloat(comparadores.patrLiq.value))
 				    nota = nota + 1
 				var liqCorr = parseFloat(stockArray[i][stock]["Liq.Corr."].replace(/\./g, '').replace(/,/g, '.'));
-				if(comparadores.liqCorr.checked &&  liqCorr > comparadores.liqCorr.value)
+				if(comparadores.liqCorr.checked &&  liqCorr > parseFloat(comparadores.liqCorr.value))
 				    nota = nota + 1
 				var roe = parseFloat(stockArray[i][stock]["ROE"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.roe.checked &&  roe > comparadores.roe.value) 
+				if(comparadores.roe.checked &&  roe > parseFloat(comparadores.roe.value)) 
 				    nota = nota + 1
 				var divPat = parseFloat(stockArray[i][stock]["Div.Brut/Pat."].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.divPat.checked &&  divPat * 100 < comparadores.divPat.value && divPat > 0) 
+				if(comparadores.divPat.checked &&  divPat * 100 < parseFloat(comparadores.divPat.value) && divPat > 0) 
 				    nota = nota + 1
 				var cresc = parseFloat(stockArray[i][stock]["Cresc.5a"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.cresc.checked &&  cresc > comparadores.cresc.value) 
+				if(comparadores.cresc.checked &&  cresc > parseFloat(comparadores.cresc.value)) 
 				    nota = nota + 1
 				var pvp = parseFloat(stockArray[i][stock]["P/VP"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.pvp.checked &&  pvp < comparadores.pvp.value && pvp > 0) 
+				if(comparadores.pvp.checked &&  pvp < parseFloat(comparadores.pvp.value) && pvp > 0) 
 				    nota = nota + 1
 				var pl = parseFloat(stockArray[i][stock]["P/L"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.pl.checked &&  pl < comparadores.pl.value && pl > 0) 
+				if(comparadores.pl.checked &&  pl < parseFloat(comparadores.pl.value) && pl > 0) 
 				    nota = nota + 1
 				var dy = parseFloat(stockArray[i][stock]["DY"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.dy.checked &&  dy > comparadores.dy.value) 
+				if(comparadores.dy.checked &&  dy > parseFloat(comparadores.dy.value)) 
 				    nota = nota + 1
-				if(comparadores.plxpvp.checked &&  pl * pvp < comparadores.plxpvp.value)
+				if(comparadores.plxpvp.checked &&  pl * pvp < parseFloat(comparadores.plxpvp.value))
 					nota = nota + 1;
 
 				stockArray[i][stock]["nota"] = (parseFloat(nota) / dividePor * 10.0).toFixed(2);
@@ -169,7 +174,8 @@ var calculateScores = function(stockArray){
 
 // Clears the table
 var resetTable = function() {
-	$("#resultado").replaceWith(resultadoClone.clone());
+	$(".table-body").replaceWith(resultadoClone.clone());
+	console.log("reseta tabela", $(".table-body").html())
 }
 
 
@@ -194,11 +200,37 @@ function initInputs(){
 		$('#pvpInput').val(comparadores.pvp.value);
 		$('#plInput').val(comparadores.pl.value);
 		$('#plxpvpInput').val(comparadores.plxpvp.value);
+
+		resultadoClone = $(".table-body").clone();
 	})
 }
 
 // Save rules
 $(document).on('click', '#saveRules', function(){
+
 	// Get if checkbox is checked
-	console.log($('#patrLiqCheckbox:checked').length)
+	comparadores.patrLiq.checked = $('#patrLiqCheckbox:checked').length;
+	comparadores.liqCorr.checked = $('#liqCorrCheckbox:checked').length;
+	comparadores.roe.checked = $('#roeCheckbox:checked').length;
+	comparadores.divPat.checked = $('#divPatCheckbox:checked').length;
+	comparadores.cresc.checked = $('#crescCheckbox:checked').length;
+	comparadores.pvp.checked = $('#pvpCheckbox:checked').length;
+	comparadores.pl.checked = $('#plCheckbox:checked').length;
+	comparadores.dy.checked = $('#dyCheckbox:checked').length;
+	comparadores.plxpvp.checked = $('#plxpvpCheckbox:checked').length;
+
+	// get new values
+	comparadores.patrLiq.value = $('#patrLiqInput').val();
+	comparadores.liqCorr.value = $('#liqCorrInput').val();
+	comparadores.roe.value = $('#roeInput').val();
+	comparadores.divPat.value = $('#divPatInput').val();
+	comparadores.cresc.value = $('#crescInput').val();
+	comparadores.pvp.value = $('#pvpInput').val();
+	comparadores.pl.value = $('#plInput').val();
+	comparadores.dy.value = $('#dyInput').val();
+	comparadores.plxpvp.value = $('#plxpvpInput').val();
+
+	resetTable();
+	buildTable(arrayStocksHistory[0]);
+
 })
