@@ -78,18 +78,104 @@
 				<div class="collapse" id="collapseExample">
 				  <div class="well">
 				    <div class="list-group">
+
 				    	<div class="list-group-item">
 					      <h4>Tamanho Adequado</h4>
 					      <div class="input-group">
 					      	<span class="input-group-addon">
 				      	        <input id="patrLiqCheckbox" type="checkbox" aria-label="..." checked="true">
 				      	    </span>
-					        <span class="input-group-addon">$</span>
+					        <span class="input-group-addon">Patrimônio Líquido maior que R$</span>
 					        <input id="patrLiqInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
 					      </div>
 					    </div>
+
+					    <div class="list-group-item">
+					      <h4>Posição Financeira Forte</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="liqCorrCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">Liquidez Corrente maior que</span>
+					        <input id="liqCorrInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					      </div>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="divPatCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">Dívida Bruta / Patrimônio Líquido menor que </span>
+					        <input id="divPatInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					        <span class="input-group-addon">%</span>
+					      </div>
+					    </div>
+
+					    <div class="list-group-item">
+					      <h4>Histórico de Dividendos</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="dyCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">Último DY maior que</span>
+					        <input id="dyInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					        <span class="input-group-addon">%</span>
+					      </div>
+					    </div>
+
+					    <div class="list-group-item">
+					      <h4>Crescimento nos Ganhos</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="crescCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">Crescimento no últimos 5 anos maior que</span>
+					        <input id="crescInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					        <span class="input-group-addon">%</span>
+					      </div>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="roeCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">ROE maior que</span>
+					        <input id="roeInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					        <span class="input-group-addon">%</span>
+					      </div>
+					    </div>
+
+					    <div class="list-group-item">
+					      <h4>Preço sobre Valor de Mercado</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="pvpCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">P/VPA menor que</span>
+					        <input id="pvpInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					      </div>
+					    </div>
+
+					    <div class="list-group-item">
+					      <h4>P/L Moderado</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="plCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">P/L menor que</span>
+					        <input id="plInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					      </div>
+					    </div>
+
+					    <div class="list-group-item">
+					      <h4>Teste Graham</h4>
+					      <div class="input-group">
+					      	<span class="input-group-addon">
+				      	        <input id="plxpvpCheckbox" type="checkbox" aria-label="..." checked="true">
+				      	    </span>
+					        <span class="input-group-addon">P/L x P/VPA menor que</span>
+					        <input id="plxpvpInput" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+					      </div>
+					    </div>
+
 				    </div>
-				    <button id="saveRules" class="btn saveRules">Salvar</button>
+				    <button id="saveRules" class="btn btn-primary">Salvar</button>
 				  </div>
 				</div>
 

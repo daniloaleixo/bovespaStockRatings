@@ -5,12 +5,12 @@ var arrayStocksHistory = [];
 var resultadoClone = $("#resultado").clone();
 
 var comparadores = {
-	patrLiq: { value: 2, checked: 1 },
-	liqCorr: { value: 1.0, checked: 1 },
-	roe: { value: 2, checked: 1 },
-	divPat: { value: 0.5, checked: 1 },
+	patrLiq: { value: 2000000000, checked: 1 },
+	liqCorr: { value: 1.5, checked: 1 },
+	roe: { value: 20, checked: 1 },
+	divPat: { value: 50, checked: 1 },
 	cresc: { value: 5, checked: 1 },
-	pvp: { value: 2, checked: 1 },
+	pvp: { value: 1.5, checked: 1 },
 	pl: { value: 15, checked: 1 },
 	dy: { value: 2.5, checked: 1 },
 	plxpvp: { value: 22.5, checked: 1 },
@@ -137,7 +137,7 @@ var calculateScores = function(stockArray){
 				if(comparadores.roe.checked &&  roe > comparadores.roe.value) 
 				    nota = nota + 1
 				var divPat = parseFloat(stockArray[i][stock]["Div.Brut/Pat."].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if(comparadores.divPat.checked &&  divPat < comparadores.divPat.value && divPat > 0) 
+				if(comparadores.divPat.checked &&  divPat * 100 < comparadores.divPat.value && divPat > 0) 
 				    nota = nota + 1
 				var cresc = parseFloat(stockArray[i][stock]["Cresc.5a"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
 				if(comparadores.cresc.checked &&  cresc > comparadores.cresc.value) 
@@ -183,7 +183,18 @@ var hideLoading = function(){
 
 
 function initInputs(){
-	console.log("chamei")
+	console.log("chamei");
+	$(function() {
+		$('#patrLiqInput').val(comparadores.patrLiq.value);
+		$('#liqCorrInput').val(comparadores.liqCorr.value);
+		$('#divPatInput').val(comparadores.divPat.value);
+		$('#dyInput').val(comparadores.dy.value);
+		$('#crescInput').val(comparadores.cresc.value);
+		$('#roeInput').val(comparadores.roe.value);
+		$('#pvpInput').val(comparadores.pvp.value);
+		$('#plInput').val(comparadores.pl.value);
+		$('#plxpvpInput').val(comparadores.plxpvp.value);
+	})
 }
 
 // Save rules
