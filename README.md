@@ -13,6 +13,7 @@ Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [In
   * Dívida Bruta / Patrimônio Líquido < 50%
 * Histórico de Dividendos contínuos por, pelo menos, os últimos 20 anos.
   * Ainda não consegui pegar essa informação, estou colocando só o último DY
+  * Ultimo DY maior que 2.5%
 * Estabilidade nos Ganhos, Nenhum prejuízo nos últimos 10 anos.
   * Ainda não consegui verificar se teve algum prejuízo
 * Crescimento nos Ganhos: 10 anos de crescimento nos lucros-por-ação de, pelo menos,
