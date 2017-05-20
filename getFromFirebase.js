@@ -1,8 +1,22 @@
 console.log('bla')
 
 var database = firebase.database();
-
 var arrayStocksHistory = [];
+var resultadoClone = $("#resultado").clone();
+
+var comparadores = {
+	patrLiq: 2,
+	liqCorr: 1.0,
+	roe: 2,
+	divPat: 0.5,
+	cresc: 5,
+	pvp: 2,
+	pl: 15,
+	dy: 2.5,
+	plxpvp: 22.5
+}
+
+
 
 database.ref().child('stocks').once('value').then(function(snapshot){
 	// console.log(snapshot.val())
@@ -98,11 +112,7 @@ var buildTable = function(data){
 		}
 	}
 	
-	$("#resultado").append(txt)
-
-
-
-
+	$("#resultado").append(txt);
 }
 
 var calculateScores = function(stockArray){
@@ -112,30 +122,30 @@ var calculateScores = function(stockArray){
 				var nota = 0.0;
 
 				var patrLiq = parseFloat(stockArray[i][stock]["Pat.Liq"].replace(/\./g, '').replace(/\,/g, '.'));
-				if( patrLiq > 200000000)
+				if( patrLiq > comparadores.patrLiq)
 				    nota = nota + 1
 				var liqCorr = parseFloat(stockArray[i][stock]["Liq.Corr."].replace(/\./g, '').replace(/,/g, '.'));
-				if( liqCorr > 1.)
+				if( liqCorr > comparadores.liqCorr)
 				    nota = nota + 1
 				var roe = parseFloat(stockArray[i][stock]["ROE"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( roe > 20) 
+				if( roe > comparadores.roe) 
 				    nota = nota + 1
 				var divPat = parseFloat(stockArray[i][stock]["Div.Brut/Pat."].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( divPat < 0.5 && divPat > 0) 
+				if( divPat < comparadores.divPat && divPat > 0) 
 				    nota = nota + 1
 				var cresc = parseFloat(stockArray[i][stock]["Cresc.5a"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( cresc > 5) 
+				if( cresc > comparadores.cresc) 
 				    nota = nota + 1
 				var pvp = parseFloat(stockArray[i][stock]["P/VP"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( pvp < 2 && pvp > 0) 
+				if( pvp < comparadores.pvp && pvp > 0) 
 				    nota = nota + 1
 				var pl = parseFloat(stockArray[i][stock]["P/L"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( pl < 15 && pl > 0) 
+				if( pl < comparadores.pl && pl > 0) 
 				    nota = nota + 1
 				var dy = parseFloat(stockArray[i][stock]["DY"].replace(/\./g, '').replace(/\,/g, '.').replace(/%/g, ''));
-				if( dy > 2.5) 
+				if( dy > comparadores.dy) 
 				    nota = nota + 1
-				if(pl * pvp < 22.5)
+				if(pl * pvp < comparadores.plxpvp)
 					nota = nota + 1;
 
 				stockArray[i][stock]["nota"] = (parseFloat(nota) / 9.0 * 10.0).toFixed(2);
@@ -147,4 +157,11 @@ var calculateScores = function(stockArray){
 	}
 
 	return stockArray;
+}
+
+
+
+// Empty table
+var resetTable = function() {
+	$("#resultado").replaceWith(resultadoClone.clone());
 }
