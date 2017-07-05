@@ -30,7 +30,11 @@ líquidos.
 verifica se o resultado está abaixo de 22.5
   * P/L x P/VPA < 22.5
 
-
+## Instalação
+```bash
+sudo pip install requests==1.1.0
+sudo pip install python-firebase
+```
 
 ## Créditos
 
