@@ -3,6 +3,13 @@
   to { transform: rotate(360deg); }
 }
 
+th {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .hidden{display:none;}
 
 .screen {
