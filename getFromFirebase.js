@@ -5,6 +5,8 @@ var arrayStocksHistory = [];
 
 var resultadoClone;
 
+var lastUpdate;
+
 var comparadores = {
 	patrLiq: { value: 2000000000, checked: 1 },
 	liqCorr: { value: 1.5, checked: 1 },
@@ -43,6 +45,24 @@ database.ref().child('stocks').once('value').then(function(snapshot){
 	// console.log(arrayStocksHistory);
 	buildTable(arrayStocksHistory[0]);
 	hideLoading();
+
+}, function(error){
+	console.log("deu erro");
+})
+
+// Get last update
+database.ref().child('last_date').once('value').then(function(snapshot){
+
+	lastUpdate = Object.keys(snapshot.val())
+	.map(function(key){
+		return new Date(snapshot.val()[key]);
+	})
+	.sort(function(a,b) {
+		return b -a;
+	})
+	.pop();
+
+	$("#lastUpdate").append(lastUpdate);
 
 }, function(error){
 	console.log("deu erro");

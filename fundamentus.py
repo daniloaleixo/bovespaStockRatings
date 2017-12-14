@@ -238,6 +238,9 @@ if __name__ == '__main__':
 
     result = firebase.post('/stocks', data=output_json )
     print (result)
+    result = firebase.post('/last_date', data=time.strftime("%c"))
+    print (result)
+    
     
 
 
