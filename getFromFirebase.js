@@ -125,7 +125,12 @@ var buildTable = function(data){
 	$('#resultado').DataTable({ 
 		'data': resultArray,
 		'order'	: [[ 1, "desc" ]], // Order by score
- 		"pageLength": 500 // All stocks in the page
+ 		"pageLength": 500, // All stocks in the page
+ 		"createdRow": function( row, data, dataIndex ) {
+ 			if(data[1] >= 7.5) {
+ 				$(row).css('background-color', '#cde0cd')
+ 			}
+ 		}
 	});
 
 	// var txt = "";
