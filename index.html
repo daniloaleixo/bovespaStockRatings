@@ -5,7 +5,8 @@
 	<title>Ações BOVESPA</title>
 
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
 
 	<!-- Jquery -->
 	<script   src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
@@ -14,6 +15,7 @@
 
 	<!-- Datatables -->
 	<script   src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script   src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 	
 
     <!-- Compiled and minified JavaScript -->
@@ -181,6 +183,7 @@
 				    <button id="saveRules" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Salvar</button>
 				  </div>
 				</div>
+			</div>
 
 
 				<!-- Table -->
@@ -188,33 +191,32 @@
 				<table id="resultado" class="table" border="0" cellpadding="0" cellspacing="0">
 					<thead>
 						<tr>
-							<th  class="fd-column-0 sortable-text ">Papel</th>
+							<th  class="fd-column-0 sortable-text "><a>Papel</a></th>
 							<th  class="sortable-numeric fd-column-1"><a href="#" data-toggle="tooltip" title="Calculada de acordo com os principios fundamentalistas de Benjamim Graham">Nota</a></th>
-							<th  class="sortable-numeric fd-column-2">Cotação</th>
-							<th  class="sortable-numeric fd-column-3">Patrim. Líq</th>
-							<th  class="sortable-numeric fd-column-4">Liq. Corr.</th>
-							<th  class="sortable-numeric fd-column-5">ROE</th>
-							<th  class="sortable-numeric fd-column-6">Dív.Brut/ Patrim.</th>
-							<th  class="sortable-numeric fd-column-7">Cresc. Rec.5a</th>
-							<th  class="sortable-numeric fd-column-8">P/VP</th>
-							<th  class="sortable-numeric fd-column-9">P/L</th>
-							<th  class="sortable-numeric fd-column-10">Div.Yield</th>
-							<th class="sortable-numeric fd-column-10">PSR</th>
-							<th class="sortable-numeric fd-column-11">P/Ativo</th>
-							<th class="sortable-numeric fd-column-12">P/Cap.Giro</th>
-							<th class="sortable-numeric fd-column-13">P/EBIT</th>
-							<th class="sortable-numeric fd-column-14">P/Ativ Circ.Liq</th>
-							<th class="sortable-numeric fd-column-15">EV/EBIT</th>
-							<th class="sortable-numeric fd-column-16">Mrg Ebit</th>
-							<th class="sortable-numeric fd-column-17">Mrg. Líq.</th>
-							<th class="sortable-numeric fd-column-18">ROIC</th>
-							<th class="sortable-numeric fd-column-19">Liq.2meses</th>
+							<th  class="sortable-numeric fd-column-2"><a>Cotação</a></th>
+							<th  class="sortable-numeric fd-column-3"><a>Patrim. Líq</a></th>
+							<th  class="sortable-numeric fd-column-4"><a>Liq. Corr.</a></th>
+							<th  class="sortable-numeric fd-column-5"><a>ROE</a></th>
+							<th  class="sortable-numeric fd-column-6"><a>Dív.Brut/ Patrim.</a></th>
+							<th  class="sortable-numeric fd-column-7"><a>Cresc. Rec.5a</a></th>
+							<th  class="sortable-numeric fd-column-8"><a>P/VP</a></th>
+							<th  class="sortable-numeric fd-column-9"><a>P/L</a></th>
+							<th  class="sortable-numeric fd-column-10"><a>Div.Yield</a></th>
+							<th class="sortable-numeric fd-column-10"><a>PSR</a></th>
+							<th class="sortable-numeric fd-column-11"><a>P/Ativo</a></th>
+							<th class="sortable-numeric fd-column-12"><a>P/Cap.Giro</a></th>
+							<th class="sortable-numeric fd-column-13"><a>P/EBIT</a></th>
+							<th class="sortable-numeric fd-column-14"><a>P/Ativ Circ.Liq</a></th>
+							<th class="sortable-numeric fd-column-15"><a>EV/EBIT</a></th>
+							<th class="sortable-numeric fd-column-16"><a>Mrg Ebit</a></th>
+							<th class="sortable-numeric fd-column-17"><a>Mrg. Líq.</a></th>
+							<th class="sortable-numeric fd-column-18"><a>ROIC</a></th>
+							<th class="sortable-numeric fd-column-19"><a>Liq.2meses</a></th>
 						</tr>
 					</thead>
 					<tbody class="table-body">
 				    </tbody>
 				</table>
-			</div>
 		</div>
 	</div>
 </body>
