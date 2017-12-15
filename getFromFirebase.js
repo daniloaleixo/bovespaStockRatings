@@ -81,62 +81,97 @@ var buildTable = function(data){
 
 	arrayObjects = calculateScores(arrayObjects);
 
+	console.log('aqui', Object.keys(arrayObjects[414]).pop().length > 3);
 
-	// Sort elements by score
-	arrayObjects.sort(function(a, b){
-		var nota1 = 0, nota2 = 0;
-		Object.keys(a).forEach(function(key){
-			nota1 = a[key]["nota"]
-		})
-		Object.keys(b).forEach(function(key){
-			nota2 = b[key]["nota"]
-		})
-		return nota2 - nota1;
-	})
-	var txt = "";
-	for(var i = 0; i < arrayObjects.length; i++) {
-		if(typeof(arrayObjects[i]) == "object"){
+	var resultArray = []; 
+	arrayObjects
+	.forEach(function(element) {
+		var innerObject = {};
 
-			Object.keys(arrayObjects[i]).forEach(function(stock){
+		if(Object.keys(element).pop().length > 3) {
+			Object.keys(element).map(function(innerKey) {
+				innerObject = element[innerKey];
+				innerObject['papel'] = innerKey;
+			});
 
-				var greenLine = " class='green-line'";
-				// If we see a stock with score below 7.5 we turnoff green
-				if(parseFloat(arrayObjects[i][stock]["nota"]) < 7.5)
-					greenLine = '';
+			var myArray = [];
 
-				var stockLine = "<tr" + greenLine + ">" + 
-								"<td class='stock'>" + stock + "</td>" + 
-				            	"<td>" + arrayObjects[i][stock]["nota"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["cotacao"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Pat.Liq"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Liq.Corr."] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["ROE"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Div.Brut/Pat."] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Cresc.5a"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/VP"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/L"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["DY"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["PSR"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/Ativo"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/Cap.Giro"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/EBIT"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["P/Ativ.Circ.Liq."] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["EV/EBIT"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["EBITDA"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Mrg.Liq."] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["ROIC"] + "</td>" +
-				            	"<td>" + arrayObjects[i][stock]["Liq.2m."] + "</td>" +
-				        		"</tr>";
-
-								txt += stockLine;
-			})
+			myArray.push(innerObject["papel"]);
+			myArray.push(innerObject["nota"]);
+			myArray.push(innerObject["cotacao"]);
+			myArray.push(innerObject["Pat.Liq"]);
+			myArray.push(innerObject["Liq.Corr."]);
+			myArray.push(innerObject["ROE"]);
+			myArray.push(innerObject["Div.Brut/Pat."]);
+			myArray.push(innerObject["Cresc.5a"]);
+			myArray.push(innerObject["P/VP"]);
+			myArray.push(innerObject["P/L"]);
+			myArray.push(innerObject["DY"]);
+			myArray.push(innerObject["PSR"]);
+			myArray.push(innerObject["P/Ativo"]);
+			myArray.push(innerObject["P/Cap.Giro"]);
+			myArray.push(innerObject["P/EBIT"]);
+			myArray.push(innerObject["P/Ativ.Circ.Liq."]);
+			myArray.push(innerObject["EV/EBIT"]);
+			myArray.push(innerObject["EBITDA"]);
+			myArray.push(innerObject["Mrg.Liq."]);
+			myArray.push(innerObject["ROIC"]);
+			myArray.push(innerObject["Liq.2m."]);
+			resultArray.push(myArray);
+			
 		}
-	}
-	$(function(){
-		$(".table-body").append(txt);
-		console.log('estou aqui');
-		// $("#resultado").append('dsajdhayasyusadd');
-	})
+
+	});
+	$('#resultado').DataTable({ 
+		'data': resultArray,
+		'order'	: [[ 1, "desc" ]], // Order by score
+ 		"pageLength": 500 // All stocks in the page
+	});
+
+	// var txt = "";
+	// for(var i = 0; i < arrayObjects.length; i++) {
+	// 	if(typeof(arrayObjects[i]) == "object"){
+
+	// 		Object.keys(arrayObjects[i]).forEach(function(stock){
+
+	// 			var greenLine = " class='green-line'";
+	// 			// If we see a stock with score below 7.5 we turnoff green
+	// 			if(parseFloat(arrayObjects[i][stock]["nota"]) < 7.5)
+	// 				greenLine = '';
+
+	// 			var stockLine = "<tr" + greenLine + ">" + 
+	// 							"<td class='stock'>" + stock + "</td>" + 
+	// 			            	"<td>" + arrayObjects[i][stock]["nota"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["cotacao"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Pat.Liq"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Liq.Corr."] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["ROE"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Div.Brut/Pat."] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Cresc.5a"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/VP"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/L"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["DY"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["PSR"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/Ativo"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/Cap.Giro"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/EBIT"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["P/Ativ.Circ.Liq."] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["EV/EBIT"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["EBITDA"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Mrg.Liq."] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["ROIC"] + "</td>" +
+	// 			            	"<td>" + arrayObjects[i][stock]["Liq.2m."] + "</td>" +
+	// 			        		"</tr>";
+
+	// 							txt += stockLine;
+	// 		})
+	// 	}
+	// }
+	// $(function(){
+	// 	$(".table-body").append(txt);
+	// 	console.log('estou aqui');
+	// 	// $("#resultado").append('dsajdhayasyusadd');
+	// })
 }
 
 var calculateScores = function(stockArray){
@@ -194,7 +229,9 @@ var calculateScores = function(stockArray){
 
 // Clears the table
 var resetTable = function() {
-	$(".table-body").replaceWith(resultadoClone.clone());
+	if ( $.fn.DataTable.isDataTable('#resultado') ) {
+	  $('#resultado').DataTable().destroy();
+	}
 	console.log("reseta tabela", $(".table-body").html())
 }
 

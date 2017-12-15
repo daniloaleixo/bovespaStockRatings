@@ -11,6 +11,9 @@
 	<script   src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
 	<script   src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.js"></script>
 	<script   src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.js"></script>
+
+	<!-- Datatables -->
+	<script   src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	
 
     <!-- Compiled and minified JavaScript -->
@@ -69,6 +72,8 @@
 
 			<div class="col-lg-12" id="info">
 				<p id="lastUpdate">Última atualização: </p>
+
+				<!-- button to expand configure rules -->
 				<button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 				  <i class="glyphicon glyphicon-menu-down"> </i> 
 				  Modificar regras para calcular nota
@@ -178,31 +183,32 @@
 				</div>
 
 
+				<!-- Table -->
 
 				<table id="resultado" class="table" border="0" cellpadding="0" cellspacing="0">
 					<thead>
 						<tr>
-							<th  class="fd-column-0 sortable-text stycky-header ">Papel</th>
-							<th  class="sortable-numeric fd-column-1 stycky-header"><a href="#" data-toggle="tooltip" title="Calculada de acordo com os principios fundamentalistas de Benjamim Graham">Nota</a></th>
-							<th  class="sortable-numeric fd-column-2 stycky-header">Cotação</th>
-							<th  class="sortable-numeric fd-column-3 stycky-header">Patrim. Líq</th>
-							<th  class="sortable-numeric fd-column-4 stycky-header">Liq. Corr.</th>
-							<th  class="sortable-numeric fd-column-5 stycky-header">ROE</th>
-							<th  class="sortable-numeric fd-column-6 stycky-header">Dív.Brut/ Patrim.</th>
-							<th  class="sortable-numeric fd-column-7 stycky-header">Cresc. Rec.5a</th>
-							<th  class="sortable-numeric fd-column-8 stycky-header">P/VP</th>
-							<th  class="sortable-numeric fd-column-9 stycky-header">P/L</th>
-							<th  class="sortable-numeric fd-column-10 stycky-header">Div.Yield</th>
-							<th class="sortable-numeric fd-column-10 stycky-header">PSR</th>
-							<th class="sortable-numeric fd-column-11 stycky-header">P/Ativo</th>
-							<th class="sortable-numeric fd-column-12 stycky-header">P/Cap.Giro</th>
-							<th class="sortable-numeric fd-column-13 stycky-header">P/EBIT</th>
-							<th class="sortable-numeric fd-column-14 stycky-header">P/Ativ Circ.Liq</th>
-							<th class="sortable-numeric fd-column-15 stycky-header">EV/EBIT</th>
-							<th class="sortable-numeric fd-column-16 stycky-header">Mrg Ebit</th>
-							<th class="sortable-numeric fd-column-17 stycky-header">Mrg. Líq.</th>
-							<th class="sortable-numeric fd-column-18 stycky-header">ROIC</th>
-							<th class="sortable-numeric fd-column-19 stycky-header">Liq.2meses</th>
+							<th  class="fd-column-0 sortable-text ">Papel</th>
+							<th  class="sortable-numeric fd-column-1"><a href="#" data-toggle="tooltip" title="Calculada de acordo com os principios fundamentalistas de Benjamim Graham">Nota</a></th>
+							<th  class="sortable-numeric fd-column-2">Cotação</th>
+							<th  class="sortable-numeric fd-column-3">Patrim. Líq</th>
+							<th  class="sortable-numeric fd-column-4">Liq. Corr.</th>
+							<th  class="sortable-numeric fd-column-5">ROE</th>
+							<th  class="sortable-numeric fd-column-6">Dív.Brut/ Patrim.</th>
+							<th  class="sortable-numeric fd-column-7">Cresc. Rec.5a</th>
+							<th  class="sortable-numeric fd-column-8">P/VP</th>
+							<th  class="sortable-numeric fd-column-9">P/L</th>
+							<th  class="sortable-numeric fd-column-10">Div.Yield</th>
+							<th class="sortable-numeric fd-column-10">PSR</th>
+							<th class="sortable-numeric fd-column-11">P/Ativo</th>
+							<th class="sortable-numeric fd-column-12">P/Cap.Giro</th>
+							<th class="sortable-numeric fd-column-13">P/EBIT</th>
+							<th class="sortable-numeric fd-column-14">P/Ativ Circ.Liq</th>
+							<th class="sortable-numeric fd-column-15">EV/EBIT</th>
+							<th class="sortable-numeric fd-column-16">Mrg Ebit</th>
+							<th class="sortable-numeric fd-column-17">Mrg. Líq.</th>
+							<th class="sortable-numeric fd-column-18">ROIC</th>
+							<th class="sortable-numeric fd-column-19">Liq.2meses</th>
 						</tr>
 					</thead>
 					<tbody class="table-body">
