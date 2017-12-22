@@ -1,0 +1,22 @@
+{
+  "name": "bovespa_stock_ratings",
+  "version": "1.0.0",
+  "description": "Uma plataforma para analisar dados fundamentalistas das ações da BOVESPA utilizando um crawler em python e um database em firebase. Acesso: https://daniloaleixo.github.io/bovespaStockRatings/index.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniloaleixo/bovespaStockRatings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daniloaleixo/bovespaStockRatings/issues"
+  },
+  "homepage": "https://github.com/daniloaleixo/bovespaStockRatings#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
