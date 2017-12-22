@@ -1,3 +1,7 @@
+// 
+// Get info from frebase and show it on the datatable
+// 
+
 
 
 var database = firebase.database();
