@@ -61,10 +61,10 @@ database.ref().child('last_date').once('value').then(function(snapshot){
 	.map(function(key){
 		return new Date(snapshot.val()[key]);
 	})
-	.sort(function(a,b) {
-		return b -a;
-	})
-	.pop();
+	.sort(function(a, b) {
+		console.log(new Date(a), new Date(b), new Date(a) > new Date(b));
+		return new Date(b) > new Date(a) ? 1 : -1;
+	})[0];
 
 	$("#lastUpdate").append(lastUpdate);
 
