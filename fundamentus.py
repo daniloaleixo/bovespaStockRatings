@@ -236,6 +236,11 @@ if __name__ == '__main__':
     file_output.close()
 
 
+    # Erases firebase
+    firebase.delete('/stocks', '1')
+    firebase.delete('/last_date', '1')
+
+
     result = firebase.post('/stocks', data=output_json )
     print (result)
     result = firebase.post('/last_date', data=time.strftime("%c"))

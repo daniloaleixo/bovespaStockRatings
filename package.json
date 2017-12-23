@@ -4,7 +4,7 @@
   "description": "Uma plataforma para analisar dados fundamentalistas das ações da BOVESPA utilizando um crawler em python e um database em firebase. Acesso: https://daniloaleixo.github.io/bovespaStockRatings/index.html",
   "main": "index.js",
   "scripts": {
-    "cronjob": "./scripts/fundamentus.py",
+    "cronjob": "./fundamentus.py",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
