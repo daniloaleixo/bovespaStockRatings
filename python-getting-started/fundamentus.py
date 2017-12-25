@@ -237,8 +237,8 @@ if __name__ == '__main__':
 
 
     # Erases firebase
-    firebase.delete('/stocks', '1')
-    firebase.delete('/last_date', '1')
+    firebase.delete('/stocks', None)
+    firebase.delete('/last_date', None)
 
 
     result = firebase.post('/stocks', data=output_json )
