@@ -1,10 +1,12 @@
 # Bovespa Stock Ratings
-Uma plataforma para analisar dados fundamentalistas das ações da BOVESPA utilizando um crawler em python e um database em firebase.
-Acesso: https://daniloaleixo.github.io/bovespaStockRatings/index.html
+
+## About 
+A platform to analyse fundamentalist data from BOVESPA stock exchange.
+It consists of a cronjob running on a heroku machine who gets fundamentalist data every day and calculate a score for each stock based on Graham's principles.
 
 
 ## Análise 
-Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [Investidor Inteligente](https://en.wikipedia.org/wiki/The_Intelligent_Investor) do Benjamin Graham: 
+Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [Investidor Inteligente](https://en.wikipedia.org/wiki/The_Intelligent_Investor) do Benjamin Graham:
 
 * Tamanho Adequado 
   * Patrimônio Líquido maior que R$2bi
@@ -30,13 +32,5 @@ líquidos.
 verifica se o resultado está abaixo de 22.5
   * P/L x P/VPA < 22.5
 
-## Instalação
-```bash
-sudo pip install requests==1.1.0
-sudo pip3 install python-firebase
-sudo pip3 install lxml
-```
-
-## Créditos
-
-O projeto foi inicialmente uma contribuição para o repositório https://github.com/phoemur/fundamentus
+## Credits
+The project was inicially a contribution to this repostory: https://github.com/phoemur/fundamentus
