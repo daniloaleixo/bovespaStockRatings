@@ -85,8 +85,6 @@ var buildTable = function(data){
 
 	arrayObjects = calculateScores(arrayObjects);
 
-	console.log('aqui', Object.keys(arrayObjects[414]).pop().length > 3);
-
 	var resultArray = []; 
 	arrayObjects
 	.forEach(function(element) {
