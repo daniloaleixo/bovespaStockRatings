@@ -2,5 +2,7 @@ __pycache__/*
 scripts/__pycache__/*
 firebase.json
 .firebaserc
+.env
 functions/firebase-debug.log
 functions/node_modules/*
+functions/package-lock.json
