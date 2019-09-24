@@ -1,5 +1,6 @@
 # Bovespa Stock Ratings
 
+
 ## About 
 A platform to analyse fundamentalist data from BOVESPA stock exchange.
 It consists of a cronjob running on a heroku machine who gets fundamentalist data every day and calculate a score for each stock based on Graham's principles.
