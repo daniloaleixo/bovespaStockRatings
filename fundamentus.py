@@ -11,6 +11,7 @@ from collections import OrderedDict
 from firebase import firebase
 import json
 import ast
+import datetime
 
 
 def get_data(*args, **kwargs):
@@ -110,7 +111,9 @@ if __name__ == '__main__':
     lista = get_data()
     THE_BAR.stop()
 
-    firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
+    # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
+
+    # lista = open('list.json', 'r')
 
     file_output = open('firebase.json', 'w')
 
@@ -125,8 +128,19 @@ if __name__ == '__main__':
       "date": time.strftime("%c")
     }
 
+    hashes_list = []
+    # First include the list of all hashes
     for i in range(0, len(array_format)):
-        json_format[str(array_format[i][0])] = array_format[i][1]
+        hashes_list.append(array_format[i][1])
+
+    stocks = []
+    # Then from a list of hashes we will transform to a list of stocks
+    for i in range(0, len(hashes_list)):
+        for key in hashes_list[i]:
+            # Adds stockCode
+            hashes_list[i][key]["stockCode"] = key
+            stocks.append(hashes_list[i][key])
+    
 
     # print (json_format)
 
@@ -191,40 +205,63 @@ if __name__ == '__main__':
 
     # print (new_json)
 
-    # # # Calculate the score of the stock
-    # for key in new_json.keys():
-    #     # print (new_json[key])
-    #     if key != 'date':
-    #         for stock in new_json[key]:
-    #             nota = 0
-    #             patrLiq = float(new_json[key][stock]["Pat.Liq"].replace('.', '').replace(',', '.'))
-    #             if patrLiq > 2000000000:
-    #                 nota = nota + 1
-    #             liqCorr = float(new_json[key][stock]["Liq.Corr."].replace('.', '').replace(',', '.'))
-    #             if liqCorr > 1.5:
-    #                 nota = nota + 1
-    #             roe = float(new_json[key][stock]["ROE"].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if roe > 20: 
-    #                 nota = nota + 1
-    #             divPat = float(new_json[key][stock]["Div.Brut/Pat."].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if divPat < 0.5 and divPat > 0: 
-    #                 nota = nota + 1
-    #             cresc = float(new_json[key][stock]["Cresc.5a"].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if cresc > 5: 
-    #                 nota = nota + 1
-    #             pvp = float(new_json[key][stock]["P/VP"].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if pvp < 2 and pvp > 0: 
-    #                 nota = nota + 1
-    #             pl = float(new_json[key][stock]["P/L"].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if pl < 15 and pl > 0: 
-    #                 nota = nota + 1
-    #             dy = float(new_json[key][stock]["DY"].replace('.', '').replace(',', '.').replace('%', ''))
-    #             if dy > 2.5: 
-    #                 nota = nota + 1
-    #             new_json[key][stock]["nota"] = float(nota) / 8.0 * 10.0
+    # Calculate the score of the stock
+    final_stocks = []
+    for stock in stocks:
+        nota = 0
+        patrLiq = float(stock["Pat.Liq"].replace('.', '').replace(',', '.'))
+        if patrLiq > 2000000000:
+            nota = nota + 1
+        liqCorr = float(stock["Liq.Corr."].replace('.', '').replace(',', '.'))
+        if liqCorr > 1.5:
+            nota = nota + 1
+        roe = float(stock["ROE"].replace('.', '').replace(',', '.').replace('%', ''))
+        if roe > 20: 
+            nota = nota + 1
+        divPat = float(stock["Div.Brut/Pat."].replace('.', '').replace(',', '.').replace('%', ''))
+        if divPat < 0.5 and divPat > 0: 
+            nota = nota + 1
+        cresc = float(stock["Cresc.5a"].replace('.', '').replace(',', '.').replace('%', ''))
+        if cresc > 5: 
+            nota = nota + 1
+        pvp = float(stock["P/VP"].replace('.', '').replace(',', '.').replace('%', ''))
+        if pvp < 2 and pvp > 0: 
+            nota = nota + 1
+        pl = float(stock["P/L"].replace('.', '').replace(',', '.').replace('%', ''))
+        if pl < 15 and pl > 0: 
+            nota = nota + 1
+        dy = float(stock["DY"].replace('.', '').replace(',', '.').replace('%', ''))
+        if dy > 2.5: 
+            nota = nota + 1
+        stock["nota"] = float(nota) / 8.0 * 10.0
+
+        newStock = {}
+        newStock["patrimonioLiquido"] = patrLiq
+        newStock["liquidezCorrente"] = liqCorr
+        newStock["ROE"] = roe
+        newStock["divSobrePatrimonio"] = divPat
+        newStock["crescimentoCincoAnos"] = cresc
+        newStock["precoSobreVP"] = pvp
+        newStock["precoSobreLucro"] = pl
+        newStock["dividendos"] = dy
+        newStock["stockCode"] = stock["stockCode"]
+        newStock["score"] = stock["nota"]
+        newStock["stockPrice"] = float(stock["cotacao"].replace('.', '').replace(',', '.'))
+        newStock["PSR"] = float(stock["PSR"].replace('.', '').replace(',', '.'))
+        newStock["precoSobreAtivo"] = float(stock['P/Ativo'].replace('.', '').replace(',', '.'))
+        newStock["precoSobreCapitalGiro"] = float(stock['P/Cap.Giro'].replace('.', '').replace(',', '.'))
+        newStock["precoSobreEBIT"] = float(stock['P/EBIT'].replace('.', '').replace(',', '.'))
+        newStock["precoSobreAtivoCirculante"] = float(stock['P/Ativ.Circ.Liq.'].replace('.', '').replace(',', '.'))
+        newStock["EVSobreEBIT"] = float(stock['EV/EBIT'].replace('.', '').replace(',', '.'))
+        newStock["margemEBIT"] = float(stock["EBITDA"].replace('.', '').replace(',', '.').replace('%', ''))
+        newStock["margemLiquida"] = float(stock['Mrg.Liq.'].replace('.', '').replace(',', '.').replace('%', ''))
+        newStock["ROIC"] = float(stock["ROIC"].replace('.', '').replace(',', '.').replace('%', ''))
+        newStock["liquidezDoisMeses"] = float(stock['Liq.2m.'].replace('.', '').replace(',', '.').replace('%', ''))
+        newStock["timestamp"] = str(datetime.datetime.now())
+        
+        final_stocks.append(newStock)
 
 
-                # print (stock, '>>>>>>>>>>>>>>>>>>>>>>>.',patrLiq,liqCorr,roe,divPat,cresc,pvp,pl,dy, nota)
 
 
     # # # beautify JSON
@@ -238,57 +275,14 @@ if __name__ == '__main__':
 
 
     # Erases firebase
-    firebase.delete('/stocks', None)
-    firebase.delete('/last_date', None)
+    # firebase.delete('/stocks', None)
+    # firebase.delete('/last_date', None)
 
 
-    result = firebase.post('/stocks', data=output_json )
-    print (result)
-    result = firebase.post('/last_date', data=time.strftime("%c"))
-    print (result)
+    # result = firebase.post('/stocks', data=output_json )
+    # print (result)
+    # result = firebase.post('/last_date', data=time.strftime("%c"))
+    # print (result)
     
-    
-
-
-
-
-
-
-
-
-
-
-    # print('{0:<7} {1:<7} {2:<10} {3:<7} {4:<10} {5:<7} {6:<10} {7:<10} {8:<10} {9:<11} {10:<11} {11:<7} {12:<11} {13:<14} {14:<7}'.format('Papel',
-    #                                                                                                                                       'Cotação',
-    #                                                                                                                                       'P/L',
-    #                                                                                                                                       'P/VP',
-    #                                                                                                                                       'PSR',
-    #                                                                                                                                       'DY',
-    #                                                                                                                                       'P/EBIT',
-    #                                                                                                                                       'EV/EBIT',
-    #                                                                                                                                       'EBITDA',
-    #                                                                                                                                       'Mrg.Liq.',
-    #                                                                                                                                       'Liq.Corr.',
-    #                                                                                                                                       'ROIC',
-    #                                                                                                                                       'ROE',
-    #                                                                                                                                       'Div.Brut/Pat.',
-    #                                                                                                                                       'Cresc.5a'))
-    
-    # print('-'*154)
-    # for k, v in lista.items():
-    #     print('{0:<7} {1:<7} {2:<10} {3:<7} {4:<10} {5:<7} {6:<10} {7:<10} {8:<10} {9:<11} {10:<11} {11:<7} {12:<11} {13:<14} {14:<7}'.format(k,
-    #                                                                                                                                           v['cotacao'],
-    #                                                                                                                                           v['P/L'],
-    #                                                                                                                                           v['P/VP'],
-    #                                                                                                                                           v['PSR'],
-    #                                                                                                                                           v['DY'],
-    #                                                                                                                                           v['P/EBIT'],
-    #                                                                                                                                           v['EV/EBIT'],
-    #                                                                                                                                           v['EBITDA'],
-    #                                                                                                                                           v['Mrg.Liq.'],
-    #                                                                                                                                           v['Liq.Corr.'],
-    #                                                                                                                                           v['ROIC'],
-    #                                                                                                                                           v['ROE'],
-    #                                                                                                                                           v['Div.Brut/Pat.'],
-    #                                                                                                                                           v['Cresc.5a']))
+                                                                                                                                  v['Cresc.5a']))
 
