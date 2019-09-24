@@ -12,6 +12,8 @@ from firebase import firebase
 import json
 import ast
 import datetime
+import os
+from pymongo import MongoClient
 
 
 def get_data(*args, **kwargs):
@@ -112,8 +114,6 @@ if __name__ == '__main__':
     THE_BAR.stop()
 
     # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
-
-    # lista = open('list.json', 'r')
 
     file_output = open('firebase.json', 'w')
 
@@ -261,7 +261,7 @@ if __name__ == '__main__':
         
         final_stocks.append(newStock)
 
-
+        
 
 
     # # # beautify JSON
@@ -283,6 +283,13 @@ if __name__ == '__main__':
     # print (result)
     # result = firebase.post('/last_date', data=time.strftime("%c"))
     # print (result)
-    
-                                                                                                                                  v['Cresc.5a']))
 
+
+    # Saves in mongoDB
+    client = MongoClient(os.environ['MONGO_URI'])
+    db = client.recentStocks
+    stocks_coll = db.stocks
+    for stock in final_stocks:
+        # Insert in mongo
+        stock_id = stocks_coll.insert_one(stock).inserted_id
+        print("Inserted object", stock_id)
