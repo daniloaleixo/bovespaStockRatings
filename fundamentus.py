@@ -289,7 +289,12 @@ if __name__ == '__main__':
     client = MongoClient(os.environ['MONGO_URI'])
     db = client.recentStocks
     stocks_coll = db.stocks
-    for stock in final_stocks:
+
+    # First drop the collection
+    db.stocks.drop()
+
+    for i in range(0, len(final_stocks)):
+        stock = final_stocks[i]
         # Insert in mongo
         stock_id = stocks_coll.insert_one(stock).inserted_id
-        print("Inserted object", stock_id)
+        print("Inserted object ", i, " of ", len(final_stocks), " :",   stock_id)
