@@ -1,7 +1,8 @@
 FROM python
 
 
-COPY . /data
+COPY fundamentus.py /data/fundamentus.py
+COPY waitingbar.py /data/waitingbar.py
 WORKDIR /data
 
 # RUN pip install -r requirements.txt
@@ -19,5 +20,5 @@ RUN pip install --upgrade lxml && \
 CMD python3 fundamentus.py
 
 # docker build -t my_image .
-# docker run -v $(pwd):/data -it my_image /bin/bash
-# docker run -e MONGO_URI=<mongo_uri> -v $(pwd):/data -t my_image
+# docker run -it my_image /bin/bash
+# docker run -e MONGO_URI=$MONGO_URI -t my_image
