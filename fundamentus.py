@@ -8,7 +8,6 @@ import time
 
 from lxml.html import fragment_fromstring
 from collections import OrderedDict
-from firebase import firebase
 import json
 import ast
 import datetime
@@ -112,11 +111,6 @@ if __name__ == '__main__':
     THE_BAR = WaitingBar('[*] Downloading...')
     lista = get_data()
     THE_BAR.stop()
-
-    # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
-
-    file_output = open('firebase.json', 'w')
-
 
     #Transform em uma lista, agora preciso passar para formato JSON
     array_format = list(lista.items())
@@ -272,17 +266,6 @@ if __name__ == '__main__':
     # # # Write in the file
     file_output.write(output_json)
     file_output.close()
-
-
-    # Erases firebase
-    # firebase.delete('/stocks', None)
-    # firebase.delete('/last_date', None)
-
-
-    # result = firebase.post('/stocks', data=output_json )
-    # print (result)
-    # result = firebase.post('/last_date', data=time.strftime("%c"))
-    # print (result)
 
 
     # Saves in mongoDB

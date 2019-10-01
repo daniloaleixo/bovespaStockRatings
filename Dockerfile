@@ -7,7 +7,6 @@ WORKDIR /data
 
 # RUN pip install -r requirements.txt
 RUN pip install --upgrade lxml && \
-    pip install --upgrade firebase && \
     pip install --upgrade python_jwt && \
     pip install --upgrade gcloud && \
     pip install --upgrade sseclient && \
