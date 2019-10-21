@@ -17,7 +17,7 @@ protobuf==3.10.0rc1
 pyasn1==0.4.7
 pyasn1-modules==0.2.6
 pycparser==2.19
-pycryptodome==3.4.3
+pycryptodome==3.6.6
 pymongo==3.9.0
 python-jwt==3.2.4
 PyYAML==5.1.2
