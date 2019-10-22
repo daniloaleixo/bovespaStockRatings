@@ -251,7 +251,7 @@ if __name__ == '__main__':
         newStock["margemLiquida"] = float(stock['Mrg.Liq.'].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["ROIC"] = float(stock["ROIC"].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["liquidezDoisMeses"] = float(stock['Liq.2m.'].replace('.', '').replace(',', '.').replace('%', ''))
-        newStock["timestamp"] = str(datetime.datetime.now())
+        newStock["timestamp"] = datetime.datetime.now()
         
         final_stocks.append(newStock)
 
@@ -264,8 +264,8 @@ if __name__ == '__main__':
     # print (output_json)
 
     # # # Write in the file
-    file_output.write(output_json)
-    file_output.close()
+    # file_output.write(output_json)
+    # file_output.close()
 
 
     # Saves in mongoDB
