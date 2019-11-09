@@ -18,7 +18,7 @@ from pymongo import MongoClient
 
 def get_data(*args, **kwargs):
     url = 'http://www.fundamentus.com.br/resultado.php'
-    cj = http.cookiejar.CookieJar() 
+    cj = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
     opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                          ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
@@ -105,13 +105,89 @@ def get_data(*args, **kwargs):
 
     return lista
 
+
+def get_specific_data(stock):
+    url = "http://www.fundamentus.com.br/detalhes.php?papel=" + stock
+    cj = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                         ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
+    
+    # Get data from site
+    link = opener.open(url, urllib.parse.urlencode({}).encode('UTF-8'))
+    content = link.read().decode('ISO-8859-1')
+
+    # Get all table instances
+    pattern = re.compile('<table class="w728">.*</table>', re.DOTALL)
+    reg = re.findall(pattern, content)[0]
+    reg = "<div>" + reg + "</div>"
+    page = fragment_fromstring(reg)
+    all_data = {}
+
+    # There is 5 tables with tr, I will get all trs
+    all_trs = []
+    all_tables = page.xpath("table")
+
+    for i in range(0, all_tables):
+        all_trs = all_trs + all_tables[i].findall("tr")
+
+    # Run through all the trs and get the label and the
+    # data for each line
+    for tr in all_trs:
+        tr = all_trs[i]
+        # Get into td
+        all_tds = tr.getchildren()
+        for i in range(0, all_tds):
+            td = all_tds[i]
+
+            label = ""
+            data = ""
+
+            # The page has tds with contents and some 
+            # other with not
+            if (td.get("class").find("label") != -1):
+                # We have a label
+                for span in td.getchildren():
+                    if (span.get("class").find("txt") != -1):
+                        label = span.text
+
+                # If we did find a label we have to look 
+                # for a value 
+                if (len(label)) > 0:
+                    next_td = all_tds[i + 1]
+
+                    if (next_td.get("class").find("data") != -1):
+                        # We have a data
+                        for span in next_td.getchildren():
+                            if (span.get("class").find("txt") != -1):
+                                data = span.text
+
+                                # Include into dict
+                                all_data[label] = data
+
+                                # Erase it
+                                label = ""
+                                data = ""
+
+    return all_data
+
+
+
+
+
+
+
     
 if __name__ == '__main__':
     from waitingbar import WaitingBar
     
     THE_BAR = WaitingBar('[*] Downloading...')
-    lista = get_data()
-    THE_BAR.stop()
+    bla = get_specific_data("PETR4")
+    print(bla)
+
+    exit(-1)
+    # lista = get_data()
+    # THE_BAR.stop()
 
     # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
 
@@ -119,7 +195,7 @@ if __name__ == '__main__':
 
 
     #Transform em uma lista, agora preciso passar para formato JSON
-    array_format = list(lista.items())
+    # array_format = list(lista.items())
 
     # print(array_format, len(array_format))
 
@@ -141,8 +217,6 @@ if __name__ == '__main__':
             hashes_list[i][key]["stockCode"] = key
             stocks.append(hashes_list[i][key])
     
-
-    # print (json_format)
 
 
 #     json_format = {
@@ -168,30 +242,6 @@ if __name__ == '__main__':
 #             "ROIC": "4,59%",
 #             "cotacao": "480,00",
 #             "nota": 0.5
-#         }
-#     },
-#     "1": {
-#         "ATOM3": {
-#             "Cresc.5a": "0,00%",
-#             "DY": "0,00%",
-#             "Div.Brut/Pat.": "0,00",
-#             "EBITDA": "0,00%",
-#             "EV/EBIT": "-228,80",
-#             "Liq.2m.": "319.438,00",
-#             "Liq.Corr.": "0,00",
-#             "Mrg.Liq.": "0,00%",
-#             "P/Ativ.Circ.Liq.": "0,00",
-#             "P/Ativo": "127,459",
-#             "P/Cap.Giro": "0,00",
-#             "P/EBIT": "-228,80",
-#             "P/L": "-512,46",
-#             "P/VP": "-9,20",
-#             "PSR": "0,000",
-#             "Pat.Liq": "-8.131.000,00",
-#             "ROE": "1,80%",
-#             "ROIC": "0,00%",
-#             "cotacao": "3,58",
-#             "nota": 0.375
 #         }
 #     }
 # }
