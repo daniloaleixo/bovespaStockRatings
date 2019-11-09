@@ -5,6 +5,7 @@ import urllib.request
 import urllib.parse
 import http.cookiejar
 import time
+import lxml
 
 from lxml.html import fragment_fromstring
 from collections import OrderedDict
@@ -128,17 +129,21 @@ def get_specific_data(stock):
     all_trs = []
     all_tables = page.xpath("table")
 
-    for i in range(0, all_tables):
+    for i in range(0, len(all_tables)):
         all_trs = all_trs + all_tables[i].findall("tr")
 
     # Run through all the trs and get the label and the
     # data for each line
-    for tr in all_trs:
-        tr = all_trs[i]
+    for tr_index in range(0, len(all_trs)):
+        tr = all_trs[tr_index]
         # Get into td
         all_tds = tr.getchildren()
-        for i in range(0, all_tds):
-            td = all_tds[i]
+        for td_index in range(0, len(all_tds)):
+            td = all_tds[td_index]
+            print("\n>>>>>")
+            print(lxml.html.tostring(td))
+            print("\n")
+
 
             label = ""
             data = ""
@@ -154,7 +159,7 @@ def get_specific_data(stock):
                 # If we did find a label we have to look 
                 # for a value 
                 if (len(label)) > 0:
-                    next_td = all_tds[i + 1]
+                    next_td = all_tds[td_index + 1]
 
                     if (next_td.get("class").find("data") != -1):
                         # We have a data
