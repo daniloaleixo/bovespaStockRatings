@@ -140,9 +140,6 @@ def get_specific_data(stock):
         all_tds = tr.getchildren()
         for td_index in range(0, len(all_tds)):
             td = all_tds[td_index]
-            print("\n>>>>>")
-            print(lxml.html.tostring(td))
-            print("\n")
 
 
             label = ""
@@ -158,14 +155,20 @@ def get_specific_data(stock):
 
                 # If we did find a label we have to look 
                 # for a value 
-                if (len(label)) > 0:
+                if (label and len(label) > 0):
                     next_td = all_tds[td_index + 1]
 
                     if (next_td.get("class").find("data") != -1):
                         # We have a data
                         for span in next_td.getchildren():
                             if (span.get("class").find("txt") != -1):
-                                data = span.text
+                                if (span.text):
+                                    data = span.text
+                                else:
+                                    # If it is a link
+                                    span_children = span.getchildren()
+                                    if (span_children and len(span_children) > 0):
+                                        data = span_children[0].text
 
                                 # Include into dict
                                 all_data[label] = data
@@ -190,9 +193,13 @@ if __name__ == '__main__':
     bla = get_specific_data("PETR4")
     print(bla)
 
-    exit(-1)
     # lista = get_data()
-    # THE_BAR.stop()
+    THE_BAR.stop()
+    print("Get all stocks data")
+
+    # TODO
+    exit(-1)
+
 
     # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
 
