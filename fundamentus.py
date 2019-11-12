@@ -9,7 +9,6 @@ import lxml
 
 from lxml.html import fragment_fromstring
 from collections import OrderedDict
-from firebase import firebase
 import json
 import ast
 import datetime
@@ -190,31 +189,16 @@ if __name__ == '__main__':
     from waitingbar import WaitingBar
     
     THE_BAR = WaitingBar('[*] Downloading...')
-    bla = get_specific_data("PETR4")
-    print(bla)
 
-    # lista = get_data()
+    lista = get_data()
     THE_BAR.stop()
-    print("Get all stocks data")
-
-    # TODO
-    exit(-1)
-
-
-    # firebase = firebase.FirebaseApplication('https://bovespastockratings.firebaseio.com/', None)
-
-    file_output = open('firebase.json', 'w')
+    # print("Get all stocks data")
 
 
     #Transform em uma lista, agora preciso passar para formato JSON
-    # array_format = list(lista.items())
+    array_format = list(lista.items())
 
     # print(array_format, len(array_format))
-
-    # Adiciona a data que esta pegando a info
-    json_format = {
-      "date": time.strftime("%c")
-    }
 
     hashes_list = []
     # First include the list of all hashes
@@ -258,15 +242,6 @@ if __name__ == '__main__':
 #     }
 # }
 
-
-    # beautify JSON
-    new_json = json.dumps(json_format, sort_keys=True, indent=4, separators=(',', ': '))
-
-    # # transform back again in dict
-    new_json = ast.literal_eval(new_json)
-
-    # print (new_json)
-
     # Calculate the score of the stock
     final_stocks = []
     for stock in stocks:
@@ -298,6 +273,7 @@ if __name__ == '__main__':
         stock["nota"] = float(nota) / 8.0 * 10.0
 
         newStock = {}
+        newStock["stockCode"] = stock["stockCode"]
         newStock["patrimonioLiquido"] = patrLiq
         newStock["liquidezCorrente"] = liqCorr
         newStock["ROE"] = roe
@@ -306,7 +282,6 @@ if __name__ == '__main__':
         newStock["precoSobreVP"] = pvp
         newStock["precoSobreLucro"] = pl
         newStock["dividendos"] = dy
-        newStock["stockCode"] = stock["stockCode"]
         newStock["score"] = stock["nota"]
         newStock["stockPrice"] = float(stock["cotacao"].replace('.', '').replace(',', '.'))
         newStock["PSR"] = float(stock["PSR"].replace('.', '').replace(',', '.'))
@@ -320,31 +295,35 @@ if __name__ == '__main__':
         newStock["ROIC"] = float(stock["ROIC"].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["liquidezDoisMeses"] = float(stock['Liq.2m.'].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["timestamp"] = str(datetime.datetime.now())
+
+        # Get more information
+        print("Getting more information from stock ", newStock["stockCode"])
+        specific_data = get_specific_data(newStock["stockCode"])
+
+        # Add everything to the object
+        newStock["tipo"] = specific_data['Tipo']
+        newStock["name"] = specific_data['Empresa']
+        newStock["setor"] = specific_data['Setor']
+        newStock["subsetor"] = specific_data['Subsetor']
+        newStock["max52sem"] = float(specific_data['Max 52 sem'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Max 52 sem'] else 0
+        newStock["volMed2M"] = float(specific_data['Vol $ méd (2m)'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Vol $ méd (2m)'] else 0
+        newStock["valorMercado"] = float(specific_data['Valor de mercado'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Valor de mercado'] else 0
+        newStock["valorFirma"] = float(specific_data['Valor da firma'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Valor da firma'] else 0
+        newStock["nAcoes"] = float(specific_data['Nro. Ações'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Nro. Ações'] else 0
+        newStock["lucroPorAcao"] = float(specific_data['LPA'].replace('.', '').replace(',', '.')) if not "-" in specific_data['LPA'] else 0
+        newStock["margemBruta"] = float(specific_data['Marg. Bruta'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Marg. Bruta'] else 0
+        newStock["EBITsobreAtivo"] = float(specific_data['EBIT / Ativo'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['EBIT / Ativo'] else 0
+        newStock["giroAtivos"] = float(specific_data['Giro Ativos'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Giro Ativos'] else 0
+        newStock["ativo"] = float(specific_data['Ativo'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Ativo'] else 0
+        newStock["divBruta"] = float(specific_data['Dív. Bruta'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Dív. Bruta'] else 0
+        newStock["divLiquida"] = float(specific_data['Dív. Líquida'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Dív. Líquida'] else 0
+        newStock["disponibilidades"] = float(specific_data['Disponibilidades'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Disponibilidades'] else 0
+        newStock["receitaLiquida"] = float(specific_data['Receita Líquida'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Receita Líquida'] else 0
+        newStock["lucroLiquido"] = float(specific_data['Lucro Líquido'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Lucro Líquido'] else 0
+
         
         final_stocks.append(newStock)
 
-        
-
-
-    # # # beautify JSON
-    output_json = json.dumps(new_json, sort_keys=True, indent=4, separators=(',', ': '))
-
-    # print (output_json)
-
-    # # # Write in the file
-    file_output.write(output_json)
-    file_output.close()
-
-
-    # Erases firebase
-    # firebase.delete('/stocks', None)
-    # firebase.delete('/last_date', None)
-
-
-    # result = firebase.post('/stocks', data=output_json )
-    # print (result)
-    # result = firebase.post('/last_date', data=time.strftime("%c"))
-    # print (result)
 
 
     # Saves in mongoDB
