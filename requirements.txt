@@ -5,7 +5,6 @@ chardet==3.0.4
 crypto==1.4.1
 cryptography==2.7
 dnspython==1.16.0
-firebase==3.0.1
 gcloud==0.18.3
 googleapis-common-protos==1.6.0
 httplib2==0.13.1

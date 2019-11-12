@@ -294,7 +294,7 @@ if __name__ == '__main__':
         newStock["margemLiquida"] = float(stock['Mrg.Liq.'].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["ROIC"] = float(stock["ROIC"].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["liquidezDoisMeses"] = float(stock['Liq.2m.'].replace('.', '').replace(',', '.').replace('%', ''))
-        newStock["timestamp"] = str(datetime.datetime.now())
+        newStock["timestamp"] = datetime.datetime.now()
 
         # Get more information
         print("Getting more information from stock ", newStock["stockCode"])

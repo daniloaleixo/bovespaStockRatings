@@ -1,9 +1,17 @@
 # Bovespa Stock Ratings
 
 
-## About 
-A platform to analyse fundamentalist data from BOVESPA stock exchange.
-It consists of a cronjob running on a heroku machine who gets fundamentalist data every day and calculate a score for each stock based on Graham's principles.
+## Sobre 
+O projeto consiste na primeira fonte de informaçôes open-source sobre análise fundamentalista das ações da Bovespa.
+O objetivo é juntar informaçôes para tomadas de decisões.
+
+## Estrutura do projeto
+
+O projeto consiste de 3 projetos em repositórios separados:
+* [Crawler](https://github.com/daniloaleixo/bovespaStockRatings): script em python que faz um scrapping em algumas páginas para colher as informações para salvar em um banco de dados Mongo.
+* [Backend](https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataServer): Backend que faz a interface, usando GraphQL entre o banco e o front-end.
+* [Front-end](https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataClient): Visualização de dados da aplicação feita, totalmente em Angular.
+
 
 
 ## Análise 
