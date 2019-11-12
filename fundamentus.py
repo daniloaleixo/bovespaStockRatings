@@ -5,6 +5,7 @@ import urllib.request
 import urllib.parse
 import http.cookiejar
 import time
+import lxml
 
 from lxml.html import fragment_fromstring
 from collections import OrderedDict
@@ -17,7 +18,7 @@ from pymongo import MongoClient
 
 def get_data(*args, **kwargs):
     url = 'http://www.fundamentus.com.br/resultado.php'
-    cj = http.cookiejar.CookieJar() 
+    cj = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
     opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
                          ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
@@ -104,23 +105,100 @@ def get_data(*args, **kwargs):
 
     return lista
 
+
+def get_specific_data(stock):
+    url = "http://www.fundamentus.com.br/detalhes.php?papel=" + stock
+    cj = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                         ('Accept', 'text/html, text/plain, text/css, text/sgml, */*;q=0.01')]
+    
+    # Get data from site
+    link = opener.open(url, urllib.parse.urlencode({}).encode('UTF-8'))
+    content = link.read().decode('ISO-8859-1')
+
+    # Get all table instances
+    pattern = re.compile('<table class="w728">.*</table>', re.DOTALL)
+    reg = re.findall(pattern, content)[0]
+    reg = "<div>" + reg + "</div>"
+    page = fragment_fromstring(reg)
+    all_data = {}
+
+    # There is 5 tables with tr, I will get all trs
+    all_trs = []
+    all_tables = page.xpath("table")
+
+    for i in range(0, len(all_tables)):
+        all_trs = all_trs + all_tables[i].findall("tr")
+
+    # Run through all the trs and get the label and the
+    # data for each line
+    for tr_index in range(0, len(all_trs)):
+        tr = all_trs[tr_index]
+        # Get into td
+        all_tds = tr.getchildren()
+        for td_index in range(0, len(all_tds)):
+            td = all_tds[td_index]
+
+
+            label = ""
+            data = ""
+
+            # The page has tds with contents and some 
+            # other with not
+            if (td.get("class").find("label") != -1):
+                # We have a label
+                for span in td.getchildren():
+                    if (span.get("class").find("txt") != -1):
+                        label = span.text
+
+                # If we did find a label we have to look 
+                # for a value 
+                if (label and len(label) > 0):
+                    next_td = all_tds[td_index + 1]
+
+                    if (next_td.get("class").find("data") != -1):
+                        # We have a data
+                        for span in next_td.getchildren():
+                            if (span.get("class").find("txt") != -1):
+                                if (span.text):
+                                    data = span.text
+                                else:
+                                    # If it is a link
+                                    span_children = span.getchildren()
+                                    if (span_children and len(span_children) > 0):
+                                        data = span_children[0].text
+
+                                # Include into dict
+                                all_data[label] = data
+
+                                # Erase it
+                                label = ""
+                                data = ""
+
+    return all_data
+
+
+
+
+
+
+
     
 if __name__ == '__main__':
     from waitingbar import WaitingBar
     
     THE_BAR = WaitingBar('[*] Downloading...')
+
     lista = get_data()
     THE_BAR.stop()
+    # print("Get all stocks data")
+
 
     #Transform em uma lista, agora preciso passar para formato JSON
     array_format = list(lista.items())
 
     # print(array_format, len(array_format))
-
-    # Adiciona a data que esta pegando a info
-    json_format = {
-      "date": time.strftime("%c")
-    }
 
     hashes_list = []
     # First include the list of all hashes
@@ -135,8 +213,6 @@ if __name__ == '__main__':
             hashes_list[i][key]["stockCode"] = key
             stocks.append(hashes_list[i][key])
     
-
-    # print (json_format)
 
 
 #     json_format = {
@@ -163,41 +239,8 @@ if __name__ == '__main__':
 #             "cotacao": "480,00",
 #             "nota": 0.5
 #         }
-#     },
-#     "1": {
-#         "ATOM3": {
-#             "Cresc.5a": "0,00%",
-#             "DY": "0,00%",
-#             "Div.Brut/Pat.": "0,00",
-#             "EBITDA": "0,00%",
-#             "EV/EBIT": "-228,80",
-#             "Liq.2m.": "319.438,00",
-#             "Liq.Corr.": "0,00",
-#             "Mrg.Liq.": "0,00%",
-#             "P/Ativ.Circ.Liq.": "0,00",
-#             "P/Ativo": "127,459",
-#             "P/Cap.Giro": "0,00",
-#             "P/EBIT": "-228,80",
-#             "P/L": "-512,46",
-#             "P/VP": "-9,20",
-#             "PSR": "0,000",
-#             "Pat.Liq": "-8.131.000,00",
-#             "ROE": "1,80%",
-#             "ROIC": "0,00%",
-#             "cotacao": "3,58",
-#             "nota": 0.375
-#         }
 #     }
 # }
-
-
-    # beautify JSON
-    new_json = json.dumps(json_format, sort_keys=True, indent=4, separators=(',', ': '))
-
-    # # transform back again in dict
-    new_json = ast.literal_eval(new_json)
-
-    # print (new_json)
 
     # Calculate the score of the stock
     final_stocks = []
@@ -230,6 +273,7 @@ if __name__ == '__main__':
         stock["nota"] = float(nota) / 8.0 * 10.0
 
         newStock = {}
+        newStock["stockCode"] = stock["stockCode"]
         newStock["patrimonioLiquido"] = patrLiq
         newStock["liquidezCorrente"] = liqCorr
         newStock["ROE"] = roe
@@ -238,7 +282,6 @@ if __name__ == '__main__':
         newStock["precoSobreVP"] = pvp
         newStock["precoSobreLucro"] = pl
         newStock["dividendos"] = dy
-        newStock["stockCode"] = stock["stockCode"]
         newStock["score"] = stock["nota"]
         newStock["stockPrice"] = float(stock["cotacao"].replace('.', '').replace(',', '.'))
         newStock["PSR"] = float(stock["PSR"].replace('.', '').replace(',', '.'))
@@ -252,20 +295,35 @@ if __name__ == '__main__':
         newStock["ROIC"] = float(stock["ROIC"].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["liquidezDoisMeses"] = float(stock['Liq.2m.'].replace('.', '').replace(',', '.').replace('%', ''))
         newStock["timestamp"] = datetime.datetime.now()
+
+        # Get more information
+        print("Getting more information from stock ", newStock["stockCode"])
+        specific_data = get_specific_data(newStock["stockCode"])
+
+        # Add everything to the object
+        newStock["tipo"] = specific_data['Tipo']
+        newStock["name"] = specific_data['Empresa']
+        newStock["setor"] = specific_data['Setor']
+        newStock["subsetor"] = specific_data['Subsetor']
+        newStock["max52sem"] = float(specific_data['Max 52 sem'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Max 52 sem'] else 0
+        newStock["volMed2M"] = float(specific_data['Vol $ méd (2m)'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Vol $ méd (2m)'] else 0
+        newStock["valorMercado"] = float(specific_data['Valor de mercado'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Valor de mercado'] else 0
+        newStock["valorFirma"] = float(specific_data['Valor da firma'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Valor da firma'] else 0
+        newStock["nAcoes"] = float(specific_data['Nro. Ações'].replace('.', '').replace(',', '.')) if not "-" in specific_data['Nro. Ações'] else 0
+        newStock["lucroPorAcao"] = float(specific_data['LPA'].replace('.', '').replace(',', '.')) if not "-" in specific_data['LPA'] else 0
+        newStock["margemBruta"] = float(specific_data['Marg. Bruta'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Marg. Bruta'] else 0
+        newStock["EBITsobreAtivo"] = float(specific_data['EBIT / Ativo'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['EBIT / Ativo'] else 0
+        newStock["giroAtivos"] = float(specific_data['Giro Ativos'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Giro Ativos'] else 0
+        newStock["ativo"] = float(specific_data['Ativo'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Ativo'] else 0
+        newStock["divBruta"] = float(specific_data['Dív. Bruta'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Dív. Bruta'] else 0
+        newStock["divLiquida"] = float(specific_data['Dív. Líquida'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Dív. Líquida'] else 0
+        newStock["disponibilidades"] = float(specific_data['Disponibilidades'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Disponibilidades'] else 0
+        newStock["receitaLiquida"] = float(specific_data['Receita Líquida'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Receita Líquida'] else 0
+        newStock["lucroLiquido"] = float(specific_data['Lucro Líquido'].replace('.', '').replace(',', '.').replace('%', '').replace("\n", "")) if not "-" in specific_data['Lucro Líquido'] else 0
+
         
         final_stocks.append(newStock)
 
-        
-
-
-    # # # beautify JSON
-    output_json = json.dumps(new_json, sort_keys=True, indent=4, separators=(',', ': '))
-
-    # print (output_json)
-
-    # # # Write in the file
-    # file_output.write(output_json)
-    # file_output.close()
 
 
     # Saves in mongoDB
