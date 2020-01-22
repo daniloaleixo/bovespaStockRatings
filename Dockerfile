@@ -17,6 +17,3 @@ RUN pip install --upgrade lxml && \
     python -m pip install pymongo[srv]
 
 CMD python3 fundamentus.py
-
-# docker build -t bovespa_stock_ratings .
-# docker run -e MONGO_URI=$MONGO_URI -t bovespa_stock_ratings

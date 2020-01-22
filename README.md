@@ -34,8 +34,8 @@ docker run -e MONGO_URI=$MONGO_URI daniloaleixo/bovespa-stock-ratings-crawler
 ```
 ### Fazendo o build da imagem docker
 ```
-docker build -t bovespaStockRatings .
-docker run -e MONGO_URI=$MONGO_URI -t bovespaStockRatings
+docker build -t bovespa_stock_ratings .
+docker run -e MONGO_URI=$MONGO_URI -t bovespa_stock_ratings
 ```
 
 
