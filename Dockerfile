@@ -18,6 +18,5 @@ RUN pip install --upgrade lxml && \
 
 CMD python3 fundamentus.py
 
-# docker build -t my_image .
-# docker run -it my_image /bin/bash
-# docker run -e MONGO_URI=$MONGO_URI -t my_image
+# docker build -t bovespa_stock_ratings .
+# docker run -e MONGO_URI=$MONGO_URI -t bovespa_stock_ratings

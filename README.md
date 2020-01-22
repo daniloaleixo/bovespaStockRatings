@@ -13,6 +13,32 @@ O projeto consiste de 3 projetos em repositórios separados:
 * [Front-end](https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataClient): Visualização de dados da aplicação feita, totalmente em Angular.
 
 
+## Configurando o projeto
+
+  
+Clonar o repositório principal
+```
+git clone --recursive git@github.com:daniloaleixo/bovespaStockRatings.git
+```
+
+[Opcional] Se quiser clonar o subrepositórios
+```
+git submodule update --init --recursive
+```
+  
+## Rodando o crawler
+
+### Rodando da imagem docker oficial
+```
+docker run -e MONGO_URI=$MONGO_URI daniloaleixo/bovespa-stock-ratings-crawler
+```
+### Fazendo o build da imagem docker
+```
+docker build -t bovespaStockRatings .
+docker run -e MONGO_URI=$MONGO_URI -t bovespaStockRatings
+```
+
+
 
 ## Análise 
 Estou fazendo uma análise baseada nos princípios fundamentalistas do livro [Investidor Inteligente](https://en.wikipedia.org/wiki/The_Intelligent_Investor) do Benjamin Graham:
