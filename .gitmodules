@@ -1,0 +1,8 @@
+[submodule "fundamentalAnalysisHistoricalDataClient"]
+	path = fundamentalAnalysisHistoricalDataClient
+	url = https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataClient.git
+	branch = master
+[submodule "fundamentalAnalysisHistoricalDataServer"]
+	path = fundamentalAnalysisHistoricalDataServer
+	url = https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataServer.git
+	branch = master

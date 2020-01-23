@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  mongo:
+    network_mode: host
+    image: willguitaradmfar/mongo-auth
+    environment:
+      CREATE_DATABASES: "myapp"
+      MONGODB_USER: "mongo_user"
+      MONGODB_PASS: "admin123"
+    volumes:
+      - /var/lib/mongodb:/data/db
+    restart: always
+    ports:
+      - 27017:27017

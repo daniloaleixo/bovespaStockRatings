@@ -17,7 +17,3 @@ RUN pip install --upgrade lxml && \
     python -m pip install pymongo[srv]
 
 CMD python3 fundamentus.py
-
-# docker build -t my_image .
-# docker run -it my_image /bin/bash
-# docker run -e MONGO_URI=$MONGO_URI -t my_image
