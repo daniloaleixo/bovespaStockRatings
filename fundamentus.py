@@ -91,14 +91,15 @@ def get_data(*args, **kwargs):
                'P/Ativ.Circ.Liq.': stocks[i].getchildren()[9].text,
                'EV/EBIT': stocks[i].getchildren()[10].text,
                'EBITDA': stocks[i].getchildren()[11].text,
-               'Mrg.Liq.': stocks[i].getchildren()[12].text,
-               'Liq.Corr.': stocks[i].getchildren()[13].text,
-               'ROIC': stocks[i].getchildren()[14].text,
-               'ROE': stocks[i].getchildren()[15].text,
-               'Liq.2m.': stocks[i].getchildren()[16].text,
-               'Pat.Liq': stocks[i].getchildren()[17].text,
-               'Div.Brut/Pat.': stocks[i].getchildren()[18].text,
-               'Cresc.5a': stocks[i].getchildren()[19].text
+               'Mrg. Ebit': stocks[i].getchildren()[12].text,
+               'Mrg.Liq.': stocks[i].getchildren()[13].text,
+               'Liq.Corr.': stocks[i].getchildren()[14].text,
+               'ROIC': stocks[i].getchildren()[15].text,
+               'ROE': stocks[i].getchildren()[16].text,
+               'Liq.2m.': stocks[i].getchildren()[17].text,
+               'Pat.Liq': stocks[i].getchildren()[18].text,
+               'Div.Brut/Pat.': stocks[i].getchildren()[19].text,
+               'Cresc.5a': stocks[i].getchildren()[20].text
                }
             }
 
