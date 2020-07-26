@@ -12,10 +12,11 @@ O objetivo é juntar informaçôes para tomadas de decisões.
 
 ## Estrutura do projeto
 
-O projeto consiste de 3 projetos em repositórios separados:
+O projeto consiste de 4 projetos em repositórios separados:
 * [Crawler](https://github.com/daniloaleixo/bovespaStockRatings): script em python que faz um scrapping em algumas páginas para colher as informações para salvar em um banco de dados Mongo.
 * [Backend](https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataServer): Backend que faz a interface, usando GraphQL entre o banco e o front-end.
 * [Front-end](https://github.com/daniloaleixo/fundamentalAnalysisHistoricalDataClient): Visualização de dados da aplicação feita, totalmente em Angular.
+* [Agente de trading](https://github.com/daniloaleixo/NeuroEvolutionMarketTrader): Agente usando neuro evolução para comprar e vender ações automaticamente
 
 
 ## Configurando o projeto
