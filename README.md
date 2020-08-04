@@ -5,8 +5,6 @@ Projeto de análise de dados fundamentalistas da Bovespa
 **If you like this project you can support me.**  
 <div>
 <a href="https://www.buymeacoffee.com/daniloaleixo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
-<br>
-<a href="https://nubank.com.br/pagar/4mctq/dof7uRQfgL" target="_blank"><img src="https://raw.githubusercontent.com/daniloaleixo/NeuroEvolutionMarketTrader/master/images/nubank-logo-11.png" alt="Cobrar nubank" style="height: 25px !important;width: 25px !important;" ></a>
 </div>
 
 
