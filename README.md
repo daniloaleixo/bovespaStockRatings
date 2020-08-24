@@ -4,7 +4,7 @@ Projeto de análise de dados fundamentalistas da Bovespa
 
 **If you like this project you can support me.**  
 <div>
-<a href="https://www.buymeacoffee.com/daniloaleixo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://apoia.se/daniloaleixo-bovespa" target="_blank"><img src="https://i.imgur.com/mFoBjIN.png" alt="Apoia.se" style="height: 51px !important;width: 217px !important;" ></a>
 </div>
 
 
