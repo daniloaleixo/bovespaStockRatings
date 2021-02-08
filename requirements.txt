@@ -7,7 +7,7 @@ cryptography==3.2
 dnspython==1.16.0
 gcloud==0.18.3
 googleapis-common-protos==1.6.0
-httplib2==0.18.0
+httplib2==0.19.0
 idna==2.8
 jwcrypto==0.6.0
 lxml==4.6.2
