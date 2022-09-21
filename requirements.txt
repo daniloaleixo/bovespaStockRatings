@@ -19,7 +19,7 @@ pyasn1-modules==0.2.6
 pycparser==2.19
 pycryptodome==3.6.6
 pymongo==3.9.0
-python-jwt==3.2.4
+python-jwt==3.3.4
 PyYAML==5.4
 requests==2.22.0
 requests-toolbelt==0.9.1
